@@ -5,30 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Learning Intelligence Engine</title>
 <meta name="author" content="Kizharyn Technologies 岐曌KI">
-<meta name="description" content="给现有教育平台增加一层学习智能：让题目、作答和测评结果继续驱动学习诊断、针对性学习与后续验证。可从一个具体场景开始接入和验证。">
+<meta name="description" content="让教育平台持续知道，学生下一步该做什么。LIE 接入现有题目、作答和学习记录，根据不断产生的学习表现持续选择当前更合适的下一步：继续判断、针对性学习、验证变化。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
 <style>
 :root{
-  --bg:#f6f8f7;--surface:#ffffff;--surface-2:#eef2f0;--ink:#16211f;--ink-2:#3d4a47;--muted:#6a7773;
+  --bg:#f6f8f7;--surface:#ffffff;--ink:#16211f;--ink-2:#3d4a47;--muted:#6a7773;
   --line:#d8dfdc;--line-strong:#b9c4c0;--accent:#1f5f5b;--accent-strong:#154a47;--accent-soft:#e3efed;
-  --on-accent:#f3f8f7;--mark:#b8741a;--mark-soft:#f6ead6;--shadow:0 1px 2px rgba(22,33,31,.06),0 12px 32px -18px rgba(22,33,31,.22);
+  --on-accent:#f3f8f7;--mark:#b8741a;--shadow:0 1px 2px rgba(22,33,31,.06),0 12px 32px -18px rgba(22,33,31,.22);
   --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
   --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  --radius:6px;--max:1120px;
+  --radius:6px;--max:1080px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0f1715;--surface:#172220;--surface-2:#1d2a27;--ink:#e6ecea;--ink-2:#c3cdca;--muted:#93a29e;
+    --bg:#0f1715;--surface:#172220;--ink:#e6ecea;--ink-2:#c3cdca;--muted:#93a29e;
     --line:#2a3834;--line-strong:#3b4b46;--accent:#6fb8b1;--accent-strong:#8ccdc6;--accent-soft:#1a2e2c;
-    --on-accent:#0f1715;--mark:#d9a24a;--mark-soft:#332a18;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -18px rgba(0,0,0,.6);
+    --on-accent:#0f1715;--mark:#d9a24a;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -18px rgba(0,0,0,.6);
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0f1715;--surface:#172220;--surface-2:#1d2a27;--ink:#e6ecea;--ink-2:#c3cdca;--muted:#93a29e;
+  --bg:#0f1715;--surface:#172220;--ink:#e6ecea;--ink-2:#c3cdca;--muted:#93a29e;
   --line:#2a3834;--line-strong:#3b4b46;--accent:#6fb8b1;--accent-strong:#8ccdc6;--accent-soft:#1a2e2c;
-  --on-accent:#0f1715;--mark:#d9a24a;--mark-soft:#332a18;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -18px rgba(0,0,0,.6);
+  --on-accent:#0f1715;--mark:#d9a24a;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -18px rgba(0,0,0,.6);
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -36,15 +36,15 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.3;margin:0;text-wrap:balance;letter-spacing:.01em}
-h1{font-size:clamp(2rem,4.2vw,3rem)}
-h2{font-size:clamp(1.5rem,2.6vw,2rem)}
+h1{font-size:clamp(2rem,4.4vw,3.125rem)}
+h2{font-size:clamp(1.5rem,2.8vw,2.125rem)}
 h3{font-size:1.125rem;font-weight:600}
 p{margin:0}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 .eyebrow{font-size:.8125rem;font-weight:500;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
-.lede{color:var(--ink-2);max-width:36em}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:var(--radius);font-weight:500;text-decoration:none;border:1px solid transparent;transition:background .15s,border-color .15s,color .15s;white-space:nowrap}
-.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.lede{color:var(--ink-2);max-width:34em}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;border-radius:var(--radius);font-weight:500;text-decoration:none;border:1px solid transparent;transition:background .15s,border-color .15s,color .15s;white-space:nowrap}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .btn-primary{background:var(--accent);color:var(--on-accent)}
 .btn-primary:hover{background:var(--accent-strong)}
 .btn-secondary{background:transparent;color:var(--accent);border-color:var(--line-strong)}
@@ -52,11 +52,13 @@ p{margin:0}
 .btn-onaccent{background:var(--on-accent);color:var(--accent-strong)}
 .btn-onaccent-ghost{background:transparent;color:var(--on-accent);border-color:rgba(255,255,255,.4)}
 :root[data-theme="dark"] .btn-onaccent-ghost{border-color:rgba(15,23,21,.5)}
+.three{font-family:var(--serif);font-weight:700;color:var(--accent);letter-spacing:.02em}
+.three .dot{color:var(--muted);font-weight:400;margin:0 .35em}
 
 /* nav */
 .nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;gap:32px;height:64px}
-.brand{font-family:var(--serif);font-weight:700;font-size:1.0625rem;text-decoration:none;letter-spacing:.01em;white-space:nowrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.0625rem;text-decoration:none;white-space:nowrap}
 .brand small{display:block;font-family:var(--sans);font-weight:400;font-size:.6875rem;color:var(--muted);letter-spacing:.14em;line-height:1;margin-top:2px}
 .links{display:flex;gap:26px;margin-left:auto;font-size:.9375rem}
 .links a{text-decoration:none;color:var(--ink-2);padding:6px 0;border-bottom:2px solid transparent}
@@ -65,105 +67,75 @@ p{margin:0}
 @media (max-width:860px){.links{display:none}.nav .btn{margin-left:auto}}
 
 /* hero */
-.hero{padding:72px 0 56px}
+.hero{padding:80px 0 64px}
 .hero .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:56px;align-items:center}
-.hero h1{margin:8px 0 20px}
+.hero h1{margin:8px 0 22px}
 .hero .lede{font-size:1.125rem}
-.hero .sub{margin-top:16px;color:var(--muted);max-width:34em}
+.hero .three{font-size:clamp(1.25rem,2.2vw,1.625rem);margin:22px 0 10px}
+.hero .sub{color:var(--muted);max-width:34em}
 .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 @media (max-width:860px){.hero{padding:48px 0 40px}.hero .wrap{grid-template-columns:1fr;gap:40px}}
 
-/* insertion diagram */
-.stack{display:flex;flex-direction:column;align-items:stretch;gap:0}
-.band{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:18px 22px;text-align:center;box-shadow:var(--shadow)}
-.band .label{font-size:.75rem;letter-spacing:.12em;color:var(--muted);margin-bottom:6px;text-transform:uppercase}
-.band .items{font-weight:500;color:var(--ink-2)}
-.band.lie{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.band.lie .label{color:var(--on-accent);opacity:.8}
-.band.lie .items{font-family:var(--serif);font-size:1.25rem;color:var(--on-accent)}
-.band.lie{position:relative}
-.band.lie::before{content:"接入位置";position:absolute;left:-1px;top:-11px;font-size:.6875rem;letter-spacing:.1em;background:var(--mark);color:#fff;padding:2px 8px;border-radius:3px;font-family:var(--sans)}
-.arrow{height:36px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
-.arrow::before{content:"";display:block;width:1px;height:100%;background:var(--line-strong)}
-.arrow::after{content:"";position:relative;top:14px;left:-1px;width:7px;height:7px;border-right:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);transform:rotate(45deg) translate(-4px,-4px)}
-
-/* applies strip */
-.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface)}
-.strip .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px;padding:16px 24px;font-size:.9375rem}
-.strip .k{color:var(--muted)}
-.strip .v{display:flex;flex-wrap:wrap;gap:8px 22px;font-weight:500;color:var(--ink-2)}
+/* loop diagram */
+.loop{display:grid;grid-template-columns:1fr;justify-items:center;text-align:center}
+.node{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:12px 20px;font-weight:500;color:var(--ink-2);box-shadow:var(--shadow);min-width:12em}
+.node.core{background:var(--accent);border-color:var(--accent);color:var(--on-accent);padding:18px 28px;min-width:15em}
+.node.core .l{display:block;font-family:var(--serif);font-size:1.25rem;color:var(--on-accent)}
+.node.core .s{display:block;font-size:.8125rem;opacity:.85;letter-spacing:.08em;margin-top:2px}
+.node.soft{background:transparent;border-style:dashed;box-shadow:none;color:var(--muted);font-weight:400}
+.v{height:30px;width:1px;background:var(--line-strong);position:relative}
+.v::after{content:"";position:absolute;left:-3px;bottom:-1px;width:6px;height:6px;border-right:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);transform:rotate(45deg)}
+.fan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%;max-width:26em}
+.fan .node{min-width:0;padding:10px 6px;font-size:.9375rem}
+.fan-lines{width:100%;max-width:26em;height:28px;position:relative}
+.fan-lines::before{content:"";position:absolute;left:16.6%;right:16.6%;top:14px;height:1px;background:var(--line-strong)}
+.fan-lines i{position:absolute;top:14px;width:1px;height:14px;background:var(--line-strong)}
+.fan-lines i:nth-child(2){left:16.6%}.fan-lines i:nth-child(3){left:50%}.fan-lines i:nth-child(4){left:83.3%}
+.fan-lines b{position:absolute;left:50%;top:0;width:1px;height:14px;background:var(--line-strong)}
+.loop .back{margin-top:16px;font-size:.8125rem;color:var(--muted);letter-spacing:.08em}
 
 /* sections */
-section.block{padding:80px 0}
+section.block{padding:88px 0}
 section.block + section.block{border-top:1px solid var(--line)}
-.head{max-width:44em;margin-bottom:40px}
+.head{max-width:40em;margin-bottom:44px}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
-.grid4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-@media (max-width:860px){.grid3,.grid2,.grid4{grid-template-columns:1fr}}
+@media (max-width:860px){.grid3{grid-template-columns:1fr}}
+.feat{padding-top:18px;border-top:2px solid var(--accent)}
+.feat .k{display:block;font-size:.8125rem;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
 .feat h3{margin-bottom:8px}
 .feat p{color:var(--ink-2)}
-.feat{padding-top:18px;border-top:2px solid var(--accent)}
 
-.cap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px 28px}
-.cap .tag{font-size:.75rem;letter-spacing:.12em;color:var(--muted);margin-bottom:8px}
-.cap h3{font-size:1.25rem;margin-bottom:10px}
-.cap p{color:var(--ink-2)}
-
-/* process */
-.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;counter-reset:step;margin-top:8px}
-.flow li{list-style:none;position:relative;padding:22px 18px 0 0;border-top:1px solid var(--line-strong)}
-.flow li::before{counter-increment:step;content:counter(step);position:absolute;top:-11px;left:0;width:22px;height:22px;border-radius:50%;background:var(--bg);border:1px solid var(--line-strong);color:var(--muted);font-size:.75rem;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
-.flow li.hi::before{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.flow h3{font-size:1rem;margin-bottom:6px}
-.flow p{font-size:.9375rem;color:var(--ink-2)}
-.flow ol,.flow ul{margin:0;padding:0}
-@media (max-width:960px){.flow{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 0}.flow li{padding-right:20px}}
-@media (max-width:600px){.flow{grid-template-columns:1fr}}
-details{margin-top:28px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);max-width:44em}
-summary{cursor:pointer;padding:14px 18px;font-weight:500;color:var(--accent);list-style:none;display:flex;align-items:center;gap:10px}
-summary::-webkit-details-marker{display:none}
-summary::before{content:"+";font-family:var(--serif);width:18px;text-align:center;color:var(--muted)}
-details[open] summary::before{content:"−"}
-details .body{padding:0 18px 18px;color:var(--ink-2)}
-details .body b{color:var(--ink);font-weight:500}
-.note{display:inline-block;margin-top:14px;padding:10px 14px;border-left:3px solid var(--mark);background:var(--mark-soft);color:var(--ink-2);font-size:.9375rem}
+/* branch diagram */
+.branch{max-width:44em;margin:0 auto;text-align:center}
+.branch .row{display:flex;flex-direction:column;align-items:center}
+.branch .split{display:grid;grid-template-columns:1fr 1fr;gap:32px;width:100%;position:relative}
+.branch .split::before{content:"";position:absolute;left:25%;right:25%;top:0;height:1px;background:var(--line-strong)}
+.branch .col{display:flex;flex-direction:column;align-items:center}
+.branch .col .v{height:24px}
+.branch .col .node{min-width:11em}
+.branch .col .node.end{background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent-strong)}
+.branch .same{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.claim{margin:36px auto 0;max-width:34em;text-align:center;font-size:1.125rem;color:var(--ink)}
+.claim b{font-weight:500;border-bottom:2px solid var(--mark)}
+@media (max-width:600px){.branch .split{gap:12px}.branch .col .node{min-width:0;width:100%;font-size:.9375rem}}
 
 /* integrate */
-.integrate{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px;align-items:start}
-@media (max-width:860px){.integrate{grid-template-columns:1fr}}
-.dim{border-top:1px solid var(--line-strong);padding-top:18px}
-.dim + .dim{margin-top:32px}
-.dim h3{margin-bottom:14px}
-.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0;padding:0;list-style:none}
-.opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.opts li{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
-.opts b{display:block;font-weight:500;margin-bottom:4px}
-.opts span{font-size:.9375rem;color:var(--ink-2)}
-@media (max-width:600px){.opts,.opts.two{grid-template-columns:1fr}}
-
-/* validate */
-.path{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin:32px 0 0;padding:0;list-style:none}
-.path li{position:relative;padding:0 20px 0 0}
-.path li .n{font-family:var(--serif);font-size:1.75rem;color:var(--accent);line-height:1;margin-bottom:10px;font-variant-numeric:tabular-nums}
-.path li b{display:block;font-weight:500;margin-bottom:4px}
-.path li span{font-size:.9375rem;color:var(--ink-2)}
-.path li:not(:last-child)::after{content:"";position:absolute;right:8px;top:12px;width:6px;height:6px;border-right:1px solid var(--line-strong);border-top:1px solid var(--line-strong);transform:rotate(45deg)}
-@media (max-width:860px){.path{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 0}.path li:not(:last-child)::after{display:none}}
-@media (max-width:480px){.path{grid-template-columns:1fr}}
-.gov{margin-top:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 32px}
-.gov div{padding-top:14px;border-top:1px solid var(--line)}
-.gov b{display:block;font-weight:500;margin-bottom:4px}
-.gov span{font-size:.9375rem;color:var(--ink-2)}
-@media (max-width:860px){.gov{grid-template-columns:1fr}}
+.integrate{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:56px;align-items:center}
+@media (max-width:860px){.integrate{grid-template-columns:1fr;gap:40px}}
+.integrate .copy .lede{max-width:none;margin-top:20px}
+.integrate .copy .lede + .lede{margin-top:14px}
+.skus{margin-top:56px;padding-top:28px;border-top:1px solid var(--line)}
+.skus h3{margin-bottom:10px}
+.skus .list{font-weight:500;color:var(--ink-2);display:flex;flex-wrap:wrap}
+.skus .list span + span::before{content:"｜";color:var(--muted);font-weight:400}
+.skus p{color:var(--muted);font-size:.9375rem;margin-top:8px}
 
 /* cta */
-.cta{background:var(--accent);color:var(--on-accent);padding:72px 0}
+.cta{background:var(--accent);color:var(--on-accent);padding:80px 0}
 .cta .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px;align-items:center}
 .cta h2{color:var(--on-accent)}
-.cta p{opacity:.9;margin-top:12px;max-width:34em}
+.cta p{opacity:.9;margin-top:12px;max-width:32em}
 .cta .actions{margin-top:0;justify-content:flex-end}
-.cta .hint{font-size:.9375rem;opacity:.85;margin-top:14px;max-width:34em}
 @media (max-width:860px){.cta .wrap{grid-template-columns:1fr}.cta .actions{justify-content:flex-start}}
 
 footer{padding:36px 0;border-top:1px solid var(--line);font-size:.875rem;color:var(--muted)}
@@ -179,13 +151,12 @@ footer .fill{margin-left:auto}
   <div class="wrap">
     <a class="brand" href="#top">Learning Intelligence Engine<small>LIE</small></a>
     <nav class="links" aria-label="主导航">
-      <a href="#capabilities">产品能力</a>
-      <a href="#scenario">应用场景</a>
+      <a href="#features">产品特点</a>
+      <a href="#how">工作方式</a>
       <a href="#integrate">接入方式</a>
-      <a href="#validate">验证方式</a>
       <a href="#contact">合作</a>
     </nav>
-    <a class="btn btn-primary" href="#contact">讨论接入场景</a>
+    <a class="btn btn-primary" href="#contact">讨论合作</a>
   </div>
 </header>
 
@@ -194,175 +165,127 @@ footer .fill{margin-left:auto}
 <section class="hero">
   <div class="wrap">
     <div>
-      <p class="eyebrow">面向教育平台的学习智能层</p>
-      <h1>给现有教育平台增加一层学习智能</h1>
-      <p class="lede">让题目、作答和测评结果继续驱动学习诊断、针对性学习与后续验证。</p>
-      <p class="sub">通过接口连接现有题库、作业、测评、阅卷、AI 教学或学习平台，可以从一个具体场景开始接入和验证。</p>
+      <p class="eyebrow">持续决定学习下一步的智能层</p>
+      <h1>让教育平台持续知道，学生下一步该做什么</h1>
+      <p class="lede">LIE 接入现有题目、作答和学习记录，根据不断产生的学习表现，持续选择当前更合适的下一步：</p>
+      <p class="three">继续判断<span class="dot">·</span>针对性学习<span class="dot">·</span>验证变化</p>
+      <p class="sub">新的表现进入后，下一步随之更新。</p>
       <div class="actions">
-        <a class="btn btn-primary" href="#contact">讨论接入场景</a>
-        <a class="btn btn-secondary" href="#integrate">查看接入方式</a>
+        <a class="btn btn-primary" href="#contact">讨论合作场景</a>
+        <a class="btn btn-secondary" href="#how">看它怎么工作</a>
       </div>
     </div>
-    <div class="stack" aria-label="LIE 在现有产品中的位置">
-      <div class="band">
-        <div class="label">已有教育产品</div>
-        <div class="items">题库 · 作业 · 测评 · 阅卷 · AI 教学</div>
+    <div class="loop" aria-label="学习表现进入，LIE 给出当前下一步，新的表现再进入">
+      <div class="node soft">当前学习表现</div>
+      <div class="v" aria-hidden="true"></div>
+      <div class="node core"><span class="l">LIE</span><span class="s">当前下一步</span></div>
+      <div class="fan-lines" aria-hidden="true"><b></b><i></i><i></i><i></i></div>
+      <div class="fan">
+        <div class="node">继续判断</div>
+        <div class="node">针对性学习</div>
+        <div class="node">验证变化</div>
       </div>
-      <div class="arrow" aria-hidden="true"></div>
-      <div class="band lie">
-        <div class="label">通过接口连接</div>
-        <div class="items">Learning Intelligence Engine</div>
-      </div>
-      <div class="arrow" aria-hidden="true"></div>
-      <div class="band">
-        <div class="label">增加的能力</div>
-        <div class="items">学习诊断 · 针对性学习 · 后续验证 · 持续学习</div>
-      </div>
+      <div class="back">↑ 新的学习表现再次进入</div>
     </div>
   </div>
 </section>
 
-<div class="strip">
-  <div class="wrap">
-    <span class="k">适用于已有以下产品的企业</span>
-    <span class="v"><span>题库</span><span>作业</span><span>测评</span><span>阅卷</span><span>AI 教学</span><span>学习平台</span></span>
-  </div>
-</div>
-
-<section class="block" id="outcomes">
+<section class="block" id="features">
   <div class="wrap">
     <div class="head">
-      <p class="eyebrow">增加什么</p>
-      <h2>让一次学习结果继续产生下一步学习</h2>
+      <p class="eyebrow">产品特点</p>
+      <h2>一次结果，不直接结束判断</h2>
     </div>
     <div class="grid3">
       <div class="feat">
-        <h3>定位当前问题</h3>
-        <p>在已有知识点和正误结果的基础上，进一步理解问题发生在哪里：是概念、运算，还是方法选择。</p>
+        <span class="k">信息不足时</span>
+        <h3>继续判断</h3>
+        <p>当前学习表现还不足以明确问题时，LIE 可以继续获取有价值的信息，再决定后续动作。</p>
       </div>
       <div class="feat">
-        <h3>决定下一步</h3>
-        <p>根据当前学习表现，决定需要进一步判断、针对性讲解、练习，还是验证。信息不足时不下结论。</p>
+        <span class="k">信息明确后</span>
+        <h3>进入针对性学习</h3>
+        <p>当当前问题已经能够定位，LIE 将学习支持围绕当前需要处理的目标展开。</p>
       </div>
       <div class="feat">
-        <h3>连接后续学习</h3>
-        <p>让测评、教学、再练和后续学习状态保持连续，一次作答的结果不再停留在一道题上。</p>
+        <span class="k">学习完成后</span>
+        <h3>继续验证</h3>
+        <p>新的表现继续用于判断学习是否发生变化，并决定后续学习。</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="block" id="capabilities">
+<section class="block" id="how">
   <div class="wrap">
     <div class="head">
-      <p class="eyebrow">产品能力</p>
-      <h2>四项产品能力，可单独使用，也可组合</h2>
-      <p class="lede">每项能力都有明确的输入和输出，各自可以独立接入；组合使用时形成从题目到学习状态的完整链路。</p>
+      <p class="eyebrow">工作方式</p>
+      <h2>相同的错误，可以走向不同的下一步</h2>
     </div>
-    <div class="grid4">
-      <div class="cap">
-        <div class="tag">题目</div>
-        <h3>题目理解</h3>
-        <p>让现有题目成为后续学习分析和教学可以使用的结构化基础。</p>
+    <div class="branch" aria-label="同样一次错误，经进一步判断后按新表现分出不同学习方向">
+      <div class="row">
+        <div class="node same">同样一次错误</div>
+        <div class="v" aria-hidden="true"></div>
+        <div class="node soft">当前信息有限</div>
+        <div class="v" aria-hidden="true"></div>
+        <div class="node core"><span class="l">LIE</span><span class="s">进一步判断</span></div>
+        <div class="v" aria-hidden="true"></div>
       </div>
-      <div class="cap">
-        <div class="tag">作答</div>
-        <h3>学习诊断</h3>
-        <p>结合当前作答与可用的学习过程信息，判断当前信息能够支持到什么程度；必要时进一步判断。</p>
-      </div>
-      <div class="cap">
-        <div class="tag">教学</div>
-        <h3>学习行动</h3>
-        <p>把当前学习问题继续转化为对应的讲解、练习和后续验证。</p>
-      </div>
-      <div class="cap">
-        <div class="tag">状态</div>
-        <h3>学习状态</h3>
-        <p>持续沉淀不同题目中的学习结果，为后续学习提供连续依据。</p>
+      <div class="split">
+        <div class="col">
+          <div class="v" aria-hidden="true"></div>
+          <div class="node">新表现 A</div>
+          <div class="v" aria-hidden="true"></div>
+          <div class="node">学习方向 A</div>
+          <div class="v" aria-hidden="true"></div>
+          <div class="node">针对性学习</div>
+          <div class="v" aria-hidden="true"></div>
+          <div class="node end">验证</div>
+        </div>
+        <div class="col">
+          <div class="v" aria-hidden="true"></div>
+          <div class="node">新表现 B</div>
+          <div class="v" aria-hidden="true"></div>
+          <div class="node">学习方向 B</div>
+          <div class="v" aria-hidden="true"></div>
+          <div class="node">针对性学习</div>
+          <div class="v" aria-hidden="true"></div>
+          <div class="node end">验证</div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="block" id="scenario">
-  <div class="wrap">
-    <div class="head">
-      <p class="eyebrow">应用场景</p>
-      <h2>一次错题，后面可以发生什么？</h2>
-      <p class="lede">以作业或测评中的一道错题为例。下面是接入 LIE 之后，你的产品可以继续走完的过程。</p>
-    </div>
-    <ol class="flow">
-      <li><h3>完成作答</h3><p>学生在你的产品里提交答案，和现在一样。</p></li>
-      <li class="hi"><h3>判断信息是否充分</h3><p>当前作答能否支持一个明确的判断。</p></li>
-      <li><h3>定位当前学习问题</h3><p>问题出在哪一步、对应哪个学习目标。</p></li>
-      <li><h3>提供针对性学习</h3><p>对应的讲解、材料或练习，从出错的位置开始。</p></li>
-      <li><h3>用新题进行验证</h3><p>换一道同一目标的题，确认问题是否解决。</p></li>
-      <li><h3>结果进入后续学习</h3><p>本次结果沉淀为学习状态，供之后的学习使用。</p></li>
-    </ol>
-    <details>
-      <summary>了解过程：信息不足时会怎样</summary>
-      <div class="body">
-        <p>当一次作答不足以区分几种可能的原因时，LIE 不会直接给出结论，而是返回 <b>信息不足 → 进一步判断</b>：由你的产品向学生追加一道短题，用新的作答补足信息，再继续定位。判断始终以实际作答为依据。</p>
-        <p class="note">这也是它和“错题推相似题”的区别：先判断问题出在哪里，再决定学什么、练什么、怎么验证。</p>
-      </div>
-    </details>
+    <p class="claim">后续学习路径<b>根据新的学习表现持续调整</b>，而不是在第一次作答后固定下来。</p>
   </div>
 </section>
 
 <section class="block" id="integrate">
   <div class="wrap">
-    <div class="head">
-      <p class="eyebrow">接入方式</p>
-      <h2>接入现有产品</h2>
-      <p class="lede">LIE 不替换你的题库、作业或测评系统。它接在这些能力之上，通过接口接收题目和作答，返回诊断、学习动作和后续状态。</p>
-    </div>
     <div class="integrate">
-      <div class="stack" aria-label="接入关系">
-        <div class="band"><div class="label">你的现有平台</div><div class="items">题目 · 作答 · 测评结果</div></div>
-        <div class="arrow" aria-hidden="true"></div>
-        <div class="band lie"><div class="label">接口</div><div class="items">LIE</div></div>
-        <div class="arrow" aria-hidden="true"></div>
-        <div class="band"><div class="label">返回给你的产品</div><div class="items">诊断 · 下一步学习动作 · 学习状态</div></div>
+      <div class="copy">
+        <p class="eyebrow">接入方式</p>
+        <h2>给现有教育产品增加一层学习决策能力</h2>
+        <p class="lede">LIE 可以连接现有题目、作答、测评和学习服务，无需重新建设一套教育平台。</p>
+        <p class="lede">可以从一个具体产品、场景或能力开始接入。</p>
+        <div class="actions"><a class="btn btn-secondary" href="#contact">了解接入方式</a></div>
       </div>
-      <div>
-        <div class="dim">
-          <h3>按需要选择能力范围</h3>
-          <ul class="opts">
-            <li><b>单项能力</b><span>只接入一项，例如学习诊断。</span></li>
-            <li><b>能力组合</b><span>按场景组合两到三项。</span></li>
-            <li><b>完整学习智能</b><span>四项能力作为一个整体接入。</span></li>
-          </ul>
+      <div class="loop" aria-label="现有产品接入 LIE 后得到三类下一步，并回到后续学习表现">
+        <div class="node">题库 · 作业 · 测评 · 阅卷 · AI 教学</div>
+        <div class="v" aria-hidden="true"></div>
+        <div class="node core"><span class="l">Learning Intelligence Engine</span></div>
+        <div class="fan-lines" aria-hidden="true"><b></b><i></i><i></i><i></i></div>
+        <div class="fan">
+          <div class="node">继续判断</div>
+          <div class="node">针对性学习</div>
+          <div class="node">验证变化</div>
         </div>
-        <div class="dim">
-          <h3>接入现有系统</h3>
-          <ul class="opts two">
-            <li><b>标准接口</b><span>提交作答、获取下一步、查询会话，三个接口覆盖主要流程。</span></li>
-            <li><b>客户系统适配</b><span>你的题目、学生和内容标识按约定映射，核心系统不需要改动数据结构。</span></li>
-          </ul>
-        </div>
+        <div class="v" aria-hidden="true"></div>
+        <div class="node soft">后续学习表现</div>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="block" id="validate">
-  <div class="wrap">
-    <div class="head">
-      <p class="eyebrow">验证方式</p>
-      <h2>从一个场景开始验证</h2>
-      <p class="lede">选择你现有产品中的一个具体入口，例如作业、错题、测评或 AI 教学。双方先明确需要接入的数据、LIE 输出的能力、验证范围和验收标准，在有限范围内完成验证；满足约定后，再扩展到更多产品入口。</p>
-    </div>
-    <ol class="path">
-      <li><div class="n">1</div><b>选择场景</b><span>一个入口、一类题目、一批学生。</span></li>
-      <li><div class="n">2</div><b>确定接口与数据</b><span>需要传入什么，返回什么。</span></li>
-      <li><div class="n">3</div><b>小范围验证</b><span>在约定范围内跑真实作答。</span></li>
-      <li><div class="n">4</div><b>按指标验收</b><span>用事先约定的指标判断结果。</span></li>
-      <li><div class="n">5</div><b>扩大接入</b><span>达标后扩展到更多入口。</span></li>
-    </ol>
-    <div class="gov">
-      <div><b>结果可追溯</b><span>每一次诊断和学习动作都记录其依据，可以回看为什么得出这个结果。</span></div>
-      <div><b>核心能力在服务端</b><span>诊断、选题和学习状态的判断在服务端完成，你的产品只接收结果。</span></div>
-      <div><b>数据可删除</b><span>支持按学生或按会话删除数据，删除后不再参与后续处理。</span></div>
+    <div class="skus">
+      <h3>可按需要接入</h3>
+      <div class="list"><span>题目理解</span><span>学习诊断</span><span>学习行动</span><span>学习状态</span></div>
+      <p>可单项接入、组合接入，也可以形成完整的学习智能能力。</p>
     </div>
   </div>
 </section>
@@ -370,12 +293,11 @@ footer .fill{margin-left:auto}
 <section class="cta" id="contact">
   <div class="wrap">
     <div>
-      <h2>从一个现有场景开始验证 LIE</h2>
-      <p>告诉我们你现有的产品入口、题目类型和期望得到的能力，我们一起确定验证范围。</p>
-      <p class="hint">来信请包含：产品入口（作业 / 错题 / 测评 / AI 教学）、题目学科与题型、希望 LIE 返回的能力。</p>
+      <h2>把持续学习决策接入现有教育产品</h2>
+      <p>从一个题库、作业、测评、错题或 AI 教学场景开始验证 LIE。</p>
     </div>
     <div class="actions">
-      <a class="btn btn-onaccent" href="mailto:panxingyu4869z@gmail.com?subject=讨论接入场景">讨论接入场景</a>
+      <a class="btn btn-onaccent" href="mailto:panxingyu4869z@gmail.com?subject=讨论合作场景">讨论合作场景</a>
       <a class="btn btn-onaccent-ghost" href="mailto:panxingyu4869z@gmail.com?subject=申请产品演示">申请产品演示</a>
     </div>
   </div>
