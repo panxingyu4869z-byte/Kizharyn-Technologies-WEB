@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Learning Intelligence Engine</title>
 <meta name="author" content="Kizharyn Technologies 岐曌KI">
-<meta name="description" content="让教育平台持续知道，学生下一步该做什么。LIE 接入现有题目、作答和学习记录，根据不断产生的学习表现持续选择当前更合适的下一步：继续判断、针对性学习、验证变化。">
+<meta name="description" content="让教育平台持续知道，学生下一步该做什么。LIE 接入现有题目、作答和学习记录，理解题目、判断当前问题、信息不足时继续确认、给出针对性学习动作、换题验证并持续更新学习状态。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
@@ -40,6 +40,7 @@ h1{font-size:clamp(2rem,4.4vw,3.125rem)}
 h2{font-size:clamp(1.5rem,2.8vw,2.125rem)}
 h3{font-size:1.125rem;font-weight:600}
 p{margin:0}
+ul{margin:0;padding:0;list-style:none}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 .eyebrow{font-size:.8125rem;font-weight:500;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
 .lede{color:var(--ink-2);max-width:34em}
@@ -60,11 +61,11 @@ p{margin:0}
 .nav .wrap{display:flex;align-items:center;gap:32px;height:64px}
 .brand{font-family:var(--serif);font-weight:700;font-size:1.0625rem;text-decoration:none;white-space:nowrap}
 .brand small{display:block;font-family:var(--sans);font-weight:400;font-size:.6875rem;color:var(--muted);letter-spacing:.14em;line-height:1;margin-top:2px}
-.links{display:flex;gap:26px;margin-left:auto;font-size:.9375rem}
+.links{display:flex;gap:24px;margin-left:auto;font-size:.9375rem}
 .links a{text-decoration:none;color:var(--ink-2);padding:6px 0;border-bottom:2px solid transparent}
 .links a:hover{color:var(--ink);border-bottom-color:var(--accent)}
 .nav .btn{padding:9px 16px;font-size:.9375rem}
-@media (max-width:860px){.links{display:none}.nav .btn{margin-left:auto}}
+@media (max-width:900px){.links{display:none}.nav .btn{margin-left:auto}}
 
 /* hero */
 .hero{padding:80px 0 64px}
@@ -99,36 +100,67 @@ section.block{padding:88px 0}
 section.block + section.block{border-top:1px solid var(--line)}
 .head{max-width:40em;margin-bottom:44px}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
-@media (max-width:860px){.grid3{grid-template-columns:1fr}}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+@media (max-width:860px){.grid3,.grid2{grid-template-columns:1fr}}
 .feat{padding-top:18px;border-top:2px solid var(--accent)}
 .feat .k{display:block;font-size:.8125rem;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
 .feat h3{margin-bottom:8px}
 .feat p{color:var(--ink-2)}
 
-/* branch diagram */
-.branch{max-width:44em;margin:0 auto;text-align:center}
-.branch .row{display:flex;flex-direction:column;align-items:center}
-.branch .split{display:grid;grid-template-columns:1fr 1fr;gap:32px;width:100%;position:relative}
-.branch .split::before{content:"";position:absolute;left:25%;right:25%;top:0;height:1px;background:var(--line-strong)}
-.branch .col{display:flex;flex-direction:column;align-items:center}
-.branch .col .v{height:24px}
-.branch .col .node{min-width:11em}
-.branch .col .node.end{background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent-strong)}
-.branch .same{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+/* chain */
+.chain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 24px;counter-reset:step}
+.chain li{position:relative;padding-top:20px;border-top:1px solid var(--line-strong)}
+.chain li::before{counter-increment:step;content:counter(step);position:absolute;top:-11px;left:0;width:22px;height:22px;border-radius:50%;background:var(--bg);border:1px solid var(--line-strong);color:var(--muted);font-size:.75rem;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+.chain b{display:block;font-weight:500;margin-bottom:4px}
+.chain span{font-size:.9375rem;color:var(--ink-2)}
+@media (max-width:900px){.chain{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.chain{grid-template-columns:1fr}}
+
+/* case */
+.case{max-width:46em;margin:0 auto}
+.case .stage{display:grid;grid-template-columns:9em 1fr;gap:16px 24px;align-items:start;padding:18px 0;border-top:1px solid var(--line)}
+.case .stage:first-child{border-top:0;padding-top:0}
+.case .who{font-size:.8125rem;letter-spacing:.1em;color:var(--muted);padding-top:4px}
+.case .say{font-weight:500}
+.case .say.lie{color:var(--accent);font-family:var(--serif);font-size:1.125rem}
+.case .say.lie small{display:block;font-family:var(--sans);font-size:.9375rem;font-weight:400;color:var(--ink-2);margin-top:4px}
+.case .split{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px}
+.case .col{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+.case .col .t{font-size:.8125rem;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+.case .col b{display:block;font-weight:500;margin-bottom:12px}
+.case .col li{position:relative;padding-left:18px;color:var(--ink-2);font-size:.9375rem}
+.case .col li::before{content:"→";position:absolute;left:0;color:var(--accent)}
 .claim{margin:36px auto 0;max-width:34em;text-align:center;font-size:1.125rem;color:var(--ink)}
 .claim b{font-weight:500;border-bottom:2px solid var(--mark)}
-@media (max-width:600px){.branch .split{gap:12px}.branch .col .node{min-width:0;width:100%;font-size:.9375rem}}
+@media (max-width:600px){.case .stage{grid-template-columns:1fr;gap:6px}.case .split{grid-template-columns:1fr}}
+
+/* capability cards */
+.cap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px 28px}
+.cap .tag{font-size:.75rem;letter-spacing:.12em;color:var(--muted);margin-bottom:8px}
+.cap h3{font-size:1.25rem;margin-bottom:10px}
+.cap p{color:var(--ink-2)}
+.cap .covers{margin-top:12px;font-size:.875rem;color:var(--muted)}
+.skus-note{margin-top:28px;color:var(--ink-2)}
 
 /* integrate */
-.integrate{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:56px;align-items:center}
+.integrate{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:56px;align-items:start}
 @media (max-width:860px){.integrate{grid-template-columns:1fr;gap:40px}}
 .integrate .copy .lede{max-width:none;margin-top:20px}
 .integrate .copy .lede + .lede{margin-top:14px}
-.skus{margin-top:56px;padding-top:28px;border-top:1px solid var(--line)}
-.skus h3{margin-bottom:10px}
-.skus .list{font-weight:500;color:var(--ink-2);display:flex;flex-wrap:wrap}
-.skus .list span + span::before{content:"｜";color:var(--muted);font-weight:400}
-.skus p{color:var(--muted);font-size:.9375rem;margin-top:8px}
+.io{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.io > div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+.io h3{font-size:1rem;margin-bottom:12px}
+.io li{position:relative;padding-left:16px;color:var(--ink-2);font-size:.9375rem;line-height:1.6;margin-bottom:6px}
+.io li::before{content:"";position:absolute;left:0;top:.7em;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+@media (max-width:520px){.io{grid-template-columns:1fr}}
+.exchange{margin-top:24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);overflow:hidden}
+.exchange .row{display:grid;grid-template-columns:7em 1fr;gap:16px;padding:14px 20px;border-top:1px solid var(--line);font-size:.9375rem}
+.exchange .row:first-child{border-top:0;background:var(--accent-soft)}
+.exchange .row .k{color:var(--muted);letter-spacing:.06em}
+.exchange .row .val{color:var(--ink-2)}
+.exchange .row .val b{font-weight:500;color:var(--ink)}
+.integrate .modes{margin-top:24px;font-weight:500;color:var(--ink-2)}
+.integrate .modes span + span::before{content:"｜";color:var(--muted);font-weight:400}
 
 /* cta */
 .cta{background:var(--accent);color:var(--on-accent);padding:80px 0}
@@ -153,6 +185,7 @@ footer .fill{margin-left:auto}
     <nav class="links" aria-label="主导航">
       <a href="#features">产品特点</a>
       <a href="#how">工作方式</a>
+      <a href="#capabilities">产品能力</a>
       <a href="#integrate">接入方式</a>
       <a href="#contact">合作</a>
     </nav>
@@ -200,19 +233,29 @@ footer .fill{margin-left:auto}
       <div class="feat">
         <span class="k">信息不足时</span>
         <h3>继续判断</h3>
-        <p>当前学习表现还不足以明确问题时，LIE 可以继续获取有价值的信息，再决定后续动作。</p>
+        <p>当前学习表现还不足以明确问题时，LIE 保留多个可能原因，不过早下结论，并继续安排有诊断价值的任务，用新的表现缩小判断范围。</p>
       </div>
       <div class="feat">
         <span class="k">信息明确后</span>
         <h3>进入针对性学习</h3>
-        <p>当当前问题已经能够定位，LIE 将学习支持围绕当前需要处理的目标展开。</p>
+        <p>当前最值得处理的问题一旦定位，LIE 找到最适合开始纠正的位置，选择匹配的讲解或练习，并让后续学习围绕同一个目标展开。</p>
       </div>
       <div class="feat">
         <span class="k">学习完成后</span>
         <h3>继续验证</h3>
-        <p>新的表现继续用于判断学习是否发生变化，并决定后续学习。</p>
+        <p>换一道题验证同一能力是否真的改善，结果持续更新跨题学习状态，为下一次学习决策提供依据。</p>
       </div>
     </div>
+    <ol class="chain" style="margin-top:56px" aria-label="完整功能链">
+      <li><b>理解题目</b><span>弄清一道题需要哪些信息、步骤和能力。</span></li>
+      <li><b>读取学生表现</b><span>结合答案和可用的过程信息形成判断依据。</span></li>
+      <li><b>判断当前问题</b><span>定位当前最值得处理的学习问题。</span></li>
+      <li><b>信息不足时继续确认</b><span>安排补充任务，而不是急着贴标签。</span></li>
+      <li><b>给出针对性学习动作</b><span>讲解、练习或其他动作，匹配当前问题。</span></li>
+      <li><b>再次验证</b><span>换题检验同一能力是否改善。</span></li>
+      <li><b>更新学习状态</b><span>跨题沉淀，可追溯、可稳定复现。</span></li>
+      <li><b>决定下一步</b><span>新的表现进入后，安排随之更新。</span></li>
+    </ol>
   </div>
 </section>
 
@@ -220,41 +263,76 @@ footer .fill{margin-left:auto}
   <div class="wrap">
     <div class="head">
       <p class="eyebrow">工作方式</p>
-      <h2>相同的错误，可以走向不同的下一步</h2>
+      <h2>一次错答，不急着给标签</h2>
+      <p class="lede">学生第一次答错后，系统可能仍无法确定问题来自哪里。下面是接入 LIE 之后会发生的事。</p>
     </div>
-    <div class="branch" aria-label="同样一次错误，经进一步判断后按新表现分出不同学习方向">
-      <div class="row">
-        <div class="node same">同样一次错误</div>
-        <div class="v" aria-hidden="true"></div>
-        <div class="node soft">当前信息有限</div>
-        <div class="v" aria-hidden="true"></div>
-        <div class="node core"><span class="l">LIE</span><span class="s">进一步判断</span></div>
-        <div class="v" aria-hidden="true"></div>
+    <div class="case">
+      <div class="stage">
+        <div class="who">第一次表现</div>
+        <div class="say">答错了，但当前信息不足以确定原因。</div>
+      </div>
+      <div class="stage">
+        <div class="who">LIE 下一步</div>
+        <div class="say lie">安排一个有诊断价值的补充任务<small>目的是区分几种可能的原因，而不是再做一遍同类题。</small></div>
       </div>
       <div class="split">
         <div class="col">
-          <div class="v" aria-hidden="true"></div>
-          <div class="node">新表现 A</div>
-          <div class="v" aria-hidden="true"></div>
-          <div class="node">学习方向 A</div>
-          <div class="v" aria-hidden="true"></div>
-          <div class="node">针对性学习</div>
-          <div class="v" aria-hidden="true"></div>
-          <div class="node end">验证</div>
+          <div class="t">新的表现 A</div>
+          <b>更可能需要先处理题意和关系的理解</b>
+          <ul>
+            <li>给出对应的讲解与练习</li>
+            <li>换一道题重新验证</li>
+            <li>结果进入学习状态</li>
+          </ul>
         </div>
         <div class="col">
-          <div class="v" aria-hidden="true"></div>
-          <div class="node">新表现 B</div>
-          <div class="v" aria-hidden="true"></div>
-          <div class="node">学习方向 B</div>
-          <div class="v" aria-hidden="true"></div>
-          <div class="node">针对性学习</div>
-          <div class="v" aria-hidden="true"></div>
-          <div class="node end">验证</div>
+          <div class="t">新的表现 B</div>
+          <b>更可能需要处理具体的操作步骤</b>
+          <ul>
+            <li>给出对应的步骤训练</li>
+            <li>换一道题重新验证</li>
+            <li>结果进入学习状态</li>
+          </ul>
         </div>
       </div>
     </div>
-    <p class="claim">后续学习路径<b>根据新的学习表现持续调整</b>，而不是在第一次作答后固定下来。</p>
+    <p class="claim">同样的第一次错误，<b>后续学习安排随新的学习结果持续更新</b>，而不是在第一次作答后固定下来。</p>
+  </div>
+</section>
+
+<section class="block" id="capabilities">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">产品能力</p>
+      <h2>四项能力，可单独使用，也可组合</h2>
+    </div>
+    <div class="grid2">
+      <div class="cap">
+        <div class="tag">题目</div>
+        <h3>题目智能</h3>
+        <p>接入已有题目、评分信息和参考解法，为后续诊断和学习服务提供统一的题目基础。同类题目批量接入，只有少数需要人工确认。</p>
+        <p class="covers">让已有题库从“题目和知识点”进一步变成可供学习判断使用的题目能力。</p>
+      </div>
+      <div class="cap">
+        <div class="tag">判断</div>
+        <h3>学习诊断</h3>
+        <p>结合答案和可用的过程信息，判断当前最值得处理的问题；信息不足时继续确认，并明确保留不确定状态。</p>
+        <p class="covers">区分不同学习问题，定位更合适的纠正位置。</p>
+      </div>
+      <div class="cap">
+        <div class="tag">动作</div>
+        <h3>学习行动</h3>
+        <p>根据当前判断选择讲解、练习或其他学习动作，并保持后续验证围绕同一个学习目标。</p>
+        <p class="covers">教学方式、讲解内容、练习材料与换题验证都出自同一条判断。</p>
+      </div>
+      <div class="cap">
+        <div class="tag">状态</div>
+        <h3>学习状态</h3>
+        <p>根据后续表现持续更新跨题学习状态，为下一次学习决策提供依据。</p>
+        <p class="covers">每次更新都可追溯到对应的表现，结果可稳定复现。</p>
+      </div>
+    </div>
+    <p class="skus-note">四项能力可单项接入、组合接入，也可以作为完整引擎接入。</p>
   </div>
 </section>
 
@@ -263,29 +341,42 @@ footer .fill{margin-left:auto}
     <div class="integrate">
       <div class="copy">
         <p class="eyebrow">接入方式</p>
-        <h2>给现有教育产品增加一层学习决策能力</h2>
-        <p class="lede">LIE 可以连接现有题目、作答、测评和学习服务，无需重新建设一套教育平台。</p>
-        <p class="lede">可以从一个具体产品、场景或能力开始接入。</p>
-        <div class="actions"><a class="btn btn-secondary" href="#contact">了解接入方式</a></div>
+        <h2>接入现有教育产品</h2>
+        <p class="lede">LIE 可以连接现有题库、作业、测评、阅卷和 AI 教学系统，无需重新建设一套教育平台。</p>
+        <p class="lede">可以从一个具体产品、场景或能力开始接入；结果只返回业务层面的判断和动作。</p>
+        <p class="modes"><span>单能力接入</span><span>组合接入</span><span>完整引擎接入</span></p>
+        <div class="actions"><a class="btn btn-secondary" href="#contact">讨论接入场景</a></div>
       </div>
-      <div class="loop" aria-label="现有产品接入 LIE 后得到三类下一步，并回到后续学习表现">
-        <div class="node">题库 · 作业 · 测评 · 阅卷 · AI 教学</div>
-        <div class="v" aria-hidden="true"></div>
-        <div class="node core"><span class="l">Learning Intelligence Engine</span></div>
-        <div class="fan-lines" aria-hidden="true"><b></b><i></i><i></i><i></i></div>
-        <div class="fan">
-          <div class="node">继续判断</div>
-          <div class="node">针对性学习</div>
-          <div class="node">验证变化</div>
+      <div>
+        <div class="io">
+          <div>
+            <h3>平台提供</h3>
+            <ul>
+              <li>题目与评分信息</li>
+              <li>学生答案</li>
+              <li>可选的步骤或过程数据</li>
+              <li>已有学习记录</li>
+            </ul>
+          </div>
+          <div>
+            <h3>LIE 返回</h3>
+            <ul>
+              <li>当前学习判断</li>
+              <li>判断是否仍需继续确认</li>
+              <li>下一项学习动作</li>
+              <li>再次验证安排</li>
+              <li>更新后的学习状态</li>
+            </ul>
+          </div>
         </div>
-        <div class="v" aria-hidden="true"></div>
-        <div class="node soft">后续学习表现</div>
+        <div class="exchange" aria-label="一次提交作答的交互示例">
+          <div class="row"><div class="k">提交</div><div class="val"><b>一次作答</b>：题目、学生答案、可选过程信息、学习者引用</div></div>
+          <div class="row"><div class="k">当前状态</div><div class="val"><b>需要进一步确认</b></div></div>
+          <div class="row"><div class="k">当前判断</div><div class="val">一次作答还不足以确定具体学习问题</div></div>
+          <div class="row"><div class="k">下一步</div><div class="val">安排一个诊断性任务</div></div>
+          <div class="row"><div class="k">后续</div><div class="val">根据新的表现进入针对性教学或继续验证</div></div>
+        </div>
       </div>
-    </div>
-    <div class="skus">
-      <h3>可按需要接入</h3>
-      <div class="list"><span>题目理解</span><span>学习诊断</span><span>学习行动</span><span>学习状态</span></div>
-      <p>可单项接入、组合接入，也可以形成完整的学习智能能力。</p>
     </div>
   </div>
 </section>
