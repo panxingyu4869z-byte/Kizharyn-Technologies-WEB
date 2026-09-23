@@ -2,40 +2,28 @@
 
 const stepContent = [
   {
-    name: "拆解",
-    english: "Decompose",
-    description: "拆解题目或学习任务，明确已知条件、要处理的问题和目标。",
-    focus: "任务内容 · 条件与目标",
+    name: "理解任务",
+    english: "Understand",
+    description: "读取题目、作答或内容，明确要处理的任务与目标。",
+    focus: "任务与目标",
   },
   {
-    name: "组合",
-    english: "Compose",
-    description: "围绕当前任务目标，组合相关信息和可用规则。",
-    focus: "任务目标 · 信息与规则",
+    name: "学习处理",
+    english: "Process",
+    description: "按场景组合所需能力，处理当前任务。",
+    focus: "所需能力",
   },
   {
-    name: "候选匹配",
-    english: "Match Candidates",
-    description: "匹配可能适用的解决内容，呈现对当前目标有用的候选。",
-    focus: "可选结果 · 相关依据",
+    name: "形成判断",
+    english: "Assess",
+    description: "形成判断，并保留依据与待确认事项。",
+    focus: "判断与依据",
   },
   {
-    name: "历史实例比较",
-    english: "Compare Historical Instances",
-    description: "结合可用的历史实例比较当前候选，为判断提供参考。",
-    focus: "相关实例 · 候选比较",
-  },
-  {
-    name: "选择正确做法",
-    english: "Choose the Right Approach",
-    description: "为当前学习任务选择合适的处理方式。",
-    focus: "做法选择",
-  },
-  {
-    name: "定位",
-    english: "Locate",
-    description: "定位处理结果及其依据，供产品功能继续使用。",
-    focus: "结果位置 · 支持依据",
+    name: "输出结果",
+    english: "Deliver",
+    description: "输出结构化结果，供产品功能继续使用。",
+    focus: "结果与用途",
   },
 ];
 
