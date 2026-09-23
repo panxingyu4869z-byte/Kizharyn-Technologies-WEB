@@ -1,423 +1,543 @@
 <!doctype html>
-<html lang="zh-Hans-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Learning Intelligence Engine</title>
-<meta name="author" content="Kizharyn Technologies 岐曌KI">
-<meta name="description" content="LIE 接在你现有的题库、作业、测评和学习资源之上。学生每答一次，都知道接下来该往哪走：再看一眼、学卡住的那一步，或者换一道再试。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
-<style>
-:root{
-  --bg:#f6f8f7;--surface:#ffffff;--ink:#16211f;--ink-2:#3d4a47;--muted:#6a7773;
-  --line:#d8dfdc;--line-strong:#b9c4c0;--accent:#1f5f5b;--accent-strong:#154a47;--accent-soft:#e3efed;
-  --on-accent:#f3f8f7;--mark:#b8741a;--shadow:0 1px 2px rgba(22,33,31,.06),0 12px 32px -18px rgba(22,33,31,.22);
-  --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
-  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  --radius:6px;--max:1080px;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0f1715;--surface:#172220;--ink:#e6ecea;--ink-2:#c3cdca;--muted:#93a29e;
-    --line:#2a3834;--line-strong:#3b4b46;--accent:#6fb8b1;--accent-strong:#8ccdc6;--accent-soft:#1a2e2c;
-    --on-accent:#0f1715;--mark:#d9a24a;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -18px rgba(0,0,0,.6);
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0f1715;--surface:#172220;--ink:#e6ecea;--ink-2:#c3cdca;--muted:#93a29e;
-  --line:#2a3834;--line-strong:#3b4b46;--accent:#6fb8b1;--accent-strong:#8ccdc6;--accent-soft:#1a2e2c;
-  --on-accent:#0f1715;--mark:#d9a24a;--shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -18px rgba(0,0,0,.6);
-}
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
-a{color:inherit}
-h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.3;margin:0;text-wrap:balance;letter-spacing:.01em}
-h1{font-size:clamp(2rem,4.4vw,3.125rem)}
-h2{font-size:clamp(1.5rem,2.8vw,2.125rem)}
-h3{font-size:1.125rem;font-weight:600}
-p{margin:0}
-ul,ol{margin:0;padding:0;list-style:none}
-.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
-.eyebrow{font-size:.8125rem;font-weight:500;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
-.lede{color:var(--ink-2);max-width:34em}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;border-radius:var(--radius);font-weight:500;text-decoration:none;border:1px solid transparent;transition:background .15s,border-color .15s,color .15s;white-space:nowrap}
-.btn:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.btn-primary{background:var(--accent);color:var(--on-accent)}
-.btn-primary:hover{background:var(--accent-strong)}
-.btn-secondary{background:transparent;color:var(--accent);border-color:var(--line-strong)}
-.btn-secondary:hover{border-color:var(--accent);background:var(--accent-soft)}
-.btn-onaccent{background:var(--on-accent);color:var(--accent-strong)}
-.btn-onaccent-ghost{background:transparent;color:var(--on-accent);border-color:rgba(255,255,255,.4)}
-:root[data-theme="dark"] .btn-onaccent-ghost{border-color:rgba(15,23,21,.5)}
-.three{font-family:var(--serif);font-weight:700;color:var(--accent);letter-spacing:.02em}
-.three .dot{color:var(--muted);font-weight:400;margin:0 .35em}
-.chip{display:inline-block;font-size:.75rem;letter-spacing:.1em;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 12px;font-weight:500}
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="LIE 将任务处理、诊断、学习行动和学习者状态能力嵌入你的产品，按场景连接业务流程并增强产品功能。">
+    <title>LIE · Learning Intelligence Engine</title>
+    <link rel="stylesheet" href="./assets/wireframe.css">
+    <script src="./assets/wireframe.js" defer></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
 
-/* nav */
-.nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;align-items:center;gap:32px;height:64px}
-.brand{font-family:var(--serif);font-weight:700;font-size:1.0625rem;text-decoration:none;white-space:nowrap}
-.brand small{display:block;font-family:var(--sans);font-weight:400;font-size:.6875rem;color:var(--muted);letter-spacing:.14em;line-height:1;margin-top:2px}
-.links{display:flex;gap:24px;margin-left:auto;font-size:.9375rem}
-.links a{text-decoration:none;color:var(--ink-2);padding:6px 0;border-bottom:2px solid transparent}
-.links a:hover{color:var(--ink);border-bottom-color:var(--accent)}
-.nav .btn{padding:9px 16px;font-size:.9375rem}
-@media (max-width:900px){.links{display:none}.nav .btn{margin-left:auto}}
-
-/* hero */
-.hero{padding:80px 0 64px}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:56px;align-items:center}
-.hero h1{margin:8px 0 22px}
-.hero .lede{font-size:1.125rem}
-.hero .three{font-size:clamp(1.25rem,2.2vw,1.625rem);margin:22px 0 10px}
-.hero .sub{color:var(--muted);max-width:34em}
-.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;align-items:center}
-.actions .link{color:var(--accent);text-decoration:none;font-weight:500;padding:12px 6px}
-.actions .link:hover{text-decoration:underline}
-@media (max-width:860px){.hero{padding:48px 0 40px}.hero .wrap{grid-template-columns:1fr;gap:40px}}
-
-/* loop diagram */
-.loop{display:grid;grid-template-columns:1fr;justify-items:center;text-align:center}
-.node{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:12px 20px;font-weight:500;color:var(--ink-2);box-shadow:var(--shadow);min-width:12em}
-.node.core{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.node.soft{background:transparent;border-style:dashed;box-shadow:none;color:var(--muted);font-weight:400}
-.v{height:30px;width:1px;background:var(--line-strong);position:relative}
-.v::after{content:"";position:absolute;left:-3px;bottom:-1px;width:6px;height:6px;border-right:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);transform:rotate(45deg)}
-.loop .back{margin-top:16px;font-size:.8125rem;color:var(--muted);letter-spacing:.08em}
-
-/* sections */
-section.block{padding:88px 0}
-section.block + section.block{border-top:1px solid var(--line)}
-.head{max-width:40em;margin-bottom:44px}
-.head .lede{margin-top:14px}
-
-/* on-top table */
-.ontop{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);overflow:hidden}
-.ontop .row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);border-top:1px solid var(--line)}
-.ontop .row:first-child{border-top:0}
-.ontop .row > div{padding:14px 22px}
-.ontop .row > div + div{border-left:1px solid var(--line)}
-.ontop .have{font-weight:500}
-.ontop .add{color:var(--ink-2)}
-.ontop .add::before{content:"+";color:var(--accent);font-weight:700;margin-right:10px}
-@media (max-width:600px){.ontop .row{grid-template-columns:1fr}.ontop .row > div + div{border-left:0;border-top:1px dashed var(--line);padding-top:8px}}
-.oneline{margin:36px auto 0;max-width:36em;text-align:center;font-size:1.125rem}
-.oneline b{font-weight:500;border-bottom:2px solid var(--mark)}
-
-/* diagnosis: highest-weight screen */
-section.diag{background:var(--surface);padding:104px 0}
-section.diag .head{max-width:46em;margin-bottom:52px}
-section.diag h2{font-size:clamp(1.75rem,3.4vw,2.625rem)}
-section.diag .lede{font-size:1.125rem;max-width:40em}
-.dcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
-.dcard{position:relative;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);padding:30px 30px 28px;box-shadow:var(--shadow)}
-.dcard h3{font-size:1.25rem;margin-bottom:10px}
-.dcard p{color:var(--ink-2)}
-.dcard .chip{margin-top:18px}
-.dcard.last{background:var(--accent);border-color:var(--accent)}
-.dcard.last .n,.dcard.last h3{color:var(--on-accent)}
-.dcard.last p{color:var(--on-accent);opacity:.9}
-.dcard.last .chip{background:rgba(255,255,255,.16);color:var(--on-accent)}
-:root[data-theme="dark"] .dcard.last .chip{background:rgba(15,23,21,.35)}
-@media (max-width:860px){section.diag{padding:80px 0}.dcards{grid-template-columns:1fr}}
-
-/* case */
-.case{max-width:52em;margin:0 auto}
-.stem{display:grid;justify-items:center;text-align:center}
-.stem .node{min-width:16em}
-.branches{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px;position:relative}
-.branches::before{content:"";position:absolute;left:25%;right:25%;top:0;height:1px;background:var(--line-strong)}
-.branch{padding-top:28px;position:relative}
-.branch::before{content:"";position:absolute;left:50%;top:0;width:1px;height:28px;background:var(--line-strong)}
-.branch .col{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;height:100%}
-.branch .t{font-size:.8125rem;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
-.branch b{display:block;font-weight:500;font-family:var(--serif);font-size:1.0625rem;color:var(--accent);margin-bottom:14px}
-.branch li{position:relative;padding-left:22px;color:var(--ink-2);margin-top:10px}
-.branch li::before{content:"↓";position:absolute;left:0;color:var(--accent)}
-.branch li:first-child{margin-top:0}
-.branch li:first-child::before{content:"→"}
-.merge{display:grid;justify-items:center;margin-top:8px;position:relative;padding-top:28px}
-.merge::before{content:"";position:absolute;left:25%;right:25%;top:0;height:1px;background:var(--line-strong)}
-.merge::after{content:"";position:absolute;left:50%;top:0;width:1px;height:28px;background:var(--line-strong)}
-.merge .node{min-width:20em}
-.claim{margin:40px auto 0;max-width:36em;text-align:center;font-size:1.125rem;color:var(--ink)}
-.claim b{font-weight:500;border-bottom:2px solid var(--mark)}
-@media (max-width:600px){.branches{grid-template-columns:1fr}.branches::before,.branch::before,.merge::before,.merge::after{display:none}.branch{padding-top:0}.merge{padding-top:0;margin-top:24px}.stem .node,.merge .node{min-width:0}}
-
-/* capability cards */
-.caps-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:24px}
-.caps-bottom{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
-.cap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px 28px}
-.cap .tag{font-size:.75rem;letter-spacing:.12em;color:var(--muted);margin-bottom:8px}
-.cap h3{font-size:1.25rem;margin-bottom:10px}
-.cap p{color:var(--ink-2)}
-.cap .covers{margin-top:14px;font-size:.875rem;color:var(--muted)}
-.cap.featured{border-color:var(--accent);border-width:2px;padding:32px 34px;box-shadow:var(--shadow)}
-.cap.featured .tag{color:var(--accent)}
-.cap.featured h3{font-size:1.5rem}
-.cap.featured p{font-size:1.0625rem}
-.cap .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.skus-note{margin-top:28px;color:var(--ink-2)}
-@media (max-width:860px){.caps-top,.caps-bottom{grid-template-columns:1fr}}
-
-/* integrate */
-.integrate{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:56px;align-items:start}
-@media (max-width:860px){.integrate{grid-template-columns:1fr;gap:40px}}
-.integrate .copy .lede{max-width:none;margin-top:20px}
-.integrate .modes{margin-top:24px;font-weight:500;color:var(--ink-2)}
-.integrate .modes span + span::before{content:"｜";color:var(--muted);font-weight:400}
-.stack{display:grid;justify-items:center;text-align:center}
-.band{width:100%;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:16px 20px}
-.band .k{display:block;font-size:.8125rem;letter-spacing:.1em;color:var(--muted);margin-bottom:4px}
-.band .items{font-weight:500;color:var(--ink-2)}
-.band .items span + span::before{content:"·";color:var(--muted);margin:0 .5em;font-weight:400}
-.band.core{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.band.core .k{color:var(--on-accent);opacity:.85}
-.band.core .items{color:var(--on-accent);font-family:var(--serif);font-size:1.0625rem}
-.band.core .items span + span::before{color:var(--on-accent);opacity:.7}
-@media (max-width:520px){
-/* cta */
-.cta{background:var(--accent);color:var(--on-accent);padding:88px 0}
-.cta .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px;align-items:center}
-.cta h2{color:var(--on-accent)}
-.cta p{opacity:.9;margin-top:12px;max-width:34em}
-.cta .actions{margin-top:0;justify-content:flex-end}
-.cta .actions .link{color:var(--on-accent);opacity:.9;width:100%;text-align:right;padding:4px 0 0}
-@media (max-width:860px){.cta .wrap{grid-template-columns:1fr}.cta .actions{justify-content:flex-start}.cta .actions .link{text-align:left}}
-
-footer{padding:36px 0;border-top:1px solid var(--line);font-size:.875rem;color:var(--muted)}
-footer .wrap{display:flex;flex-wrap:wrap;gap:12px 32px;align-items:center}
-footer a{text-decoration:none}
-footer a:hover{color:var(--ink)}
-footer .fill{margin-left:auto}
-</style>
-</head>
-<body>
-
-<header class="nav">
-  <div class="wrap">
-    <a class="brand" href="#top">Learning Intelligence Engine<small>LIE</small></a>
-    <nav class="links" aria-label="主导航">
-      <a href="#ontop">接在现有产品上</a>
-      <a href="#diagnosis">从一次作答开始</a>
-      <a href="#case">一个例子</a>
-      <a href="#capabilities">能做什么</a>
-      <a href="#integrate">怎么接入</a>
-    </nav>
-    <a class="btn btn-primary" href="#contact">申请产品演示</a>
-  </div>
-</header>
-
-<main id="top">
-
-<!-- 1. Hero -->
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <p class="eyebrow">接在你现有的教育产品上</p>
-      <h1>学生每答一次，都知道接下来该往哪走</h1>
-      <p class="lede">LIE 接进你已有的题目、作答、测评和学习记录。学生答完一道题，它会看情况决定：是再看一眼，还是针对卡住的那一步学一学，还是换一道再试试。</p>
-      <p class="three">再看一眼<span class="dot">·</span>学卡住的那一步<span class="dot">·</span>换一道再试</p>
-      <p class="sub">学生有了新的表现，接下来的安排也跟着变。</p>
-      <div class="actions">
-        <a class="btn btn-primary" href="#contact">申请产品演示</a>
-        <a class="btn btn-secondary" href="#case">看一个例子</a>
-        <a class="link" href="#integrate">怎么接入</a>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="#top" aria-label="LIE 首页顶部">
+          <span class="brand__mark" aria-hidden="true">L</span>
+          <span class="brand__copy">
+            <strong>LIE</strong>
+            <span>Learning Intelligence Engine</span>
+          </span>
+        </a>
+        <nav class="main-nav" aria-label="首页导航">
+          <a href="#capabilities">产品</a>
+          <a href="#use-cases">场景</a>
+          <a href="#integration">接入</a>
+          <a href="#pilot">Pilot</a>
+          <a href="#docs">Docs</a>
+        </nav>
+        <a class="button button--small button--primary header-cta" href="#pilot">申请场景验证</a>
       </div>
-    </div>
-    <div class="loop" aria-label="学生答题，再看一眼，找到卡住的那一步，学一学，换一道再试，回到下一次答题">
-      <div class="node soft">学生答了一道题</div>
-      <div class="v" aria-hidden="true"></div>
-      <div class="node core">还看不准的话，再来一个</div>
-      <div class="v" aria-hidden="true"></div>
-      <div class="node core">找到卡住的那一步，学一学</div>
-      <div class="v" aria-hidden="true"></div>
-      <div class="node core">换一道，看看是不是顺了</div>
-      <div class="v" aria-hidden="true"></div>
-      <div class="node soft">回到学生的下一道题</div>
-      <div class="back">↺ 一直这样走下去</div>
-    </div>
-  </div>
-</section>
+    </header>
 
-<!-- 2. On top of existing capabilities -->
-<section class="block" id="ontop">
-  <div class="wrap">
-    <div class="head">
-      <h2>接在你现有的题库、作业、测评和资源之上</h2>
-      <p class="lede">你的产品照旧管题库、作业、测评、阅卷、教学内容和学生入口。LIE 接在后面，把学生每一次新的表现，接到下一次该怎么安排上。</p>
-    </div>
-    <div class="ontop" role="table" aria-label="你已有的内容，以及接上 LIE 之后会发生的事">
-      <div class="row" role="row"><div class="have" role="cell">题库里的题</div><div class="add" role="cell">学生答过之后，会接着往下判断</div></div>
-      <div class="row" role="row"><div class="have" role="cell">作业与测评</div><div class="add" role="cell">看这次表现够不够拿定主意，不够就再看一眼</div></div>
-      <div class="row" role="row"><div class="have" role="cell">阅卷与学习结果</div><div class="add" role="cell">从结果里找到眼下最该处理的那一步</div></div>
-      <div class="row" role="row"><div class="have" role="cell">教学资源与 AI 讲解</div><div class="add" role="cell">把学生眼下需要学的，接到合适的讲解上</div></div>
-      <div class="row" role="row"><div class="have" role="cell">练习题</div><div class="add" role="cell">学完之后，用来换一道再试</div></div>
-      <div class="row" role="row"><div class="have" role="cell">历史学习记录</div><div class="add" role="cell">下一次判断时，把之前的情况一起考虑进去</div></div>
-    </div>
-    <p class="oneline">教学服务还是你的产品在做，<b>LIE 负责接着往下想一步</b>。</p>
-  </div>
-</section>
-
-<!-- 3. Core difference: learning diagnosis -->
-<section class="block diag" id="diagnosis">
-  <div class="wrap">
-    <div class="head">
-      <h2>从一次答错开始，接下来会发生什么</h2>
-      <p class="lede">一道题答对或答错，能说明的事其实不多。所以不急着下结论，而是一步一步往下看。</p>
-    </div>
-    <div class="dcards">
-      <div class="dcard">
-        <h3>先不急着下结论</h3>
-        <p>只看到一次结果的时候，先把它记下来，等学生再多做一点，再决定问题出在哪。</p>
-      </div>
-      <div class="dcard">
-        <h3>看过程，分清是哪一类问题</h3>
-        <p>把作答和写下来的步骤放在一起看，就能分出是没读懂题、方法选错了，还是某一步算错了，眼下先处理哪一个也就清楚了。</p>
-      </div>
-      <div class="dcard">
-        <h3>拿不准，就再看一眼</h3>
-        <p>信息还不够的时候，给学生再来一个，看新的表现把哪种可能排除掉。</p>
-      </div>
-      <div class="dcard last">
-        <h3>看准了，就去学，再换一道试</h3>
-        <p>知道卡在哪一步之后，直接针对这一步学；学完换一道类似但不一样的题，看看是不是真的顺了。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 4. Case -->
-<section class="block" id="case">
-  <div class="wrap">
-    <div class="head">
-      <h2>同一道题答错，两个学生接下来走的路可能不一样</h2>
-    </div>
-    <div class="case">
-      <div class="stem">
-        <div class="node">两个学生都把 2x + 2 = 10 算成了 5</div>
-        <div class="v" aria-hidden="true"></div>
-        <div class="node soft">光看这一个答案，还说不清问题在哪</div>
-        <div class="v" aria-hidden="true"></div>
-        <div class="node core">都再来一个：两边同时减去 2，右边是多少？</div>
-      </div>
-      <div class="branches">
-        <div class="branch">
-          <div class="col">
-            <div class="t">一个学生答对了</div>
-            <b>他会减，卡住的是“为什么两边要一起变”</b>
-            <ul>
-              <li>先把等式像天平一样讲清楚</li>
-              <li>再换一道 3x = 9，看他这次怎么处理</li>
-            </ul>
+    <main id="main-content">
+      <section class="hero section-pad" id="hero" aria-labelledby="hero-title">
+        <div class="container hero__grid">
+          <div class="hero__copy">
+            <p class="eyebrow"><span class="eyebrow__line"></span> Learning Intelligence Engine</p>
+            <h1 id="hero-title">把学习智能，接入你的产品。</h1>
+            <p class="hero__lead">按场景嵌入任务处理、诊断、学习行动和学习者状态能力，增强现有产品功能。LIE 可调用模型处理输入，也可连接已有模型、数据和业务流程。</p>
+            <div class="button-row">
+              <a class="button button--primary" href="#pilot">申请场景验证 <span aria-hidden="true">↗</span></a>
+              <a class="button button--secondary" href="#architecture">查看工作原理 <span aria-hidden="true">↓</span></a>
+            </div>
+            <p class="hero__fit"><span aria-hidden="true">●</span> 从一个功能或一段流程开始，组合你需要的能力。</p>
+          </div>
+          <div class="hero-diagram" aria-label="业务输入进入 LIE，按需调用模型并组合学习能力，再接入你的产品功能">
+            <div class="hero-diagram__label">位置概览 <span>01 / 10</span></div>
+            <div class="hero-flow">
+              <div class="hero-flow__node">
+                <span class="node-kicker">INPUT · 业务侧</span>
+                <strong>业务输入</strong>
+                <span>题目 · 作答 · 内容</span>
+              </div>
+              <div class="hero-flow__connector" aria-hidden="true"><span>按场景接入</span><i>→</i></div>
+              <div class="hero-flow__node hero-flow__node--lie">
+                <span class="node-kicker">ENGINE · LIE</span>
+                <strong>模型调用 · 学习计算</strong>
+                <span>按场景组合所需能力</span>
+              </div>
+              <div class="hero-flow__connector" aria-hidden="true"><span>嵌入产品</span><i>→</i></div>
+              <div class="hero-flow__node">
+                <span class="node-kicker">OUTPUT · 产品侧</span>
+                <strong>你的产品功能</strong>
+                <span>继续呈现或调用</span>
+              </div>
+            </div>
+            <div class="diagram-footnote"><span class="status-pill">概念图</span><span>具体接入方式按场景确认</span></div>
           </div>
         </div>
-        <div class="branch">
-          <div class="col">
-            <div class="t">另一个学生答错了</div>
-            <b>他知道道理，卡住的是“减的时候只减了一边”</b>
-            <ul>
-              <li>看一个两边一起减的例子，再自己做一步</li>
-              <li>再换一道，看这一步是不是顺了</li>
-            </ul>
+      </section>
+
+      <section class="section-pad section-pad--tight" id="architecture" aria-labelledby="architecture-title">
+        <div class="container">
+          <div class="section-heading section-heading--split">
+            <div>
+              <p class="section-index">02 <span>位置</span></p>
+              <h2 id="architecture-title">连接你的上下游，增强产品能力。</h2>
+            </div>
+            <div class="section-heading__aside">
+              <p>从题目、作答、内容或现有业务流程起步。LIE 可按场景调用模型准备所需信息，再由核心计算输出供产品功能使用。</p>
+            </div>
+          </div>
+
+          <div class="architecture-flow" aria-label="业务输入经 LIE 输入准备与核心计算，结果进入你的产品功能">
+            <ol class="flow-chain flow-chain--five">
+              <li class="flow-node flow-node--engine">
+                <span class="flow-node__step">01 · INPUT</span>
+                <h3>业务输入</h3>
+                <p>题目、作答、内容或现有产品流程</p>
+              </li>
+              <li class="flow-node">
+                <span class="flow-node__step">02 · PREPARATION</span>
+                <h3>LIE 输入准备</h3>
+                <p>按场景调用模型，准备处理所需信息</p>
+                <span class="flow-node__note">已有模型输出或结构化数据也可选接入</span>
+              </li>
+              <li class="flow-node">
+                <span class="flow-node__step">03 · ENGINE</span>
+                <h3>LIE 核心计算</h3>
+                <p>拆解 · 组合 · 候选匹配 · 选择做法 · 定位</p>
+                <span class="flow-node__note">结合可用的历史实例比较当前候选，为判断提供参考。</span>
+              </li>
+              <li class="flow-node">
+                <span class="flow-node__step">04 · OUTPUT</span>
+                <h3>结构化结果</h3>
+                <p>结果、依据与未解决项</p>
+              </li>
+              <li class="flow-node">
+                <span class="flow-node__step">05 · PRODUCT</span>
+                <h3>你的产品功能</h3>
+                <p>学习产品、Agent、内容系统、题库、学习机或教师工具</p>
+              </li>
+            </ol>
+          </div>
+          <div class="architecture-caption">
+            <span class="caption-mark" aria-hidden="true">i</span>
+            <p>模型调用属于 LIE 的输入准备流程，核心计算继续完成学习处理。也可按需连接已有模型输出或结构化数据；具体接入方式按场景确认。</p>
+          </div>
+          <a class="text-link" href="#how-it-works">继续看处理过程 <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+
+      <section class="section-pad section-tint" id="how-it-works" aria-labelledby="how-title">
+        <div class="container">
+          <div class="section-heading section-heading--split">
+            <div>
+              <p class="section-index">03 <span>处理过程</span></p>
+              <h2 id="how-title">从输入到定位，保留每一步的依据。</h2>
+            </div>
+            <div class="section-heading__aside">
+              <p>围绕希望增强的产品功能组织所需能力，比较候选并保留适用结果与待确认事项。</p>
+            </div>
+          </div>
+
+          <div class="step-explorer">
+            <div class="step-list" role="tablist" aria-label="LIE 六步处理流程">
+              <button class="step-button" type="button" role="tab" id="step-tab-0" aria-controls="step-detail" aria-selected="true" data-step="0"><span>01</span>拆解</button>
+              <button class="step-button" type="button" role="tab" id="step-tab-1" aria-controls="step-detail" aria-selected="false" data-step="1" tabindex="-1"><span>02</span>组合</button>
+              <button class="step-button" type="button" role="tab" id="step-tab-2" aria-controls="step-detail" aria-selected="false" data-step="2" tabindex="-1"><span>03</span>候选匹配</button>
+              <button class="step-button" type="button" role="tab" id="step-tab-3" aria-controls="step-detail" aria-selected="false" data-step="3" tabindex="-1"><span>04</span>历史实例比较</button>
+              <button class="step-button" type="button" role="tab" id="step-tab-4" aria-controls="step-detail" aria-selected="false" data-step="4" tabindex="-1"><span>05</span>选择正确做法</button>
+              <button class="step-button" type="button" role="tab" id="step-tab-5" aria-controls="step-detail" aria-selected="false" data-step="5" tabindex="-1"><span>06</span>定位</button>
+            </div>
+            <div class="step-panel" id="step-detail" role="tabpanel" aria-labelledby="step-tab-0" tabindex="0" aria-live="polite">
+              <p class="step-panel__eyebrow">CURRENT STEP · 01</p>
+              <h3>拆解 <span>Decompose</span></h3>
+              <p>拆解题目或学习任务，明确已知条件、要处理的问题和目标。</p>
+              <div class="step-panel__meta"><span>关注</span><strong>任务内容 · 条件与目标</strong></div>
+            </div>
+          </div>
+          <p class="section-note">结合可用的历史实例比较当前候选，为判断提供参考。</p>
+          <a class="text-link" href="#capabilities">选择需要的能力 <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+
+      <section class="section-pad" id="capabilities" aria-labelledby="capabilities-title">
+        <div class="container">
+          <div class="section-heading section-heading--split">
+            <div>
+              <p class="section-index">04 <span>模块</span></p>
+              <h2 id="capabilities-title">四项能力，贯穿同一套学习计算机制。</h2>
+            </div>
+            <div class="section-heading__aside">
+              <p>从任务目标出发，将比较、定位和证据更新连接起来，让产品获得可以继续使用的学习结果。</p>
+            </div>
+          </div>
+          <div class="module-table-wrap">
+            <table class="module-table" role="table" aria-label="LIE 四个能力模块的机制特点与产品价值">
+              <thead role="rowgroup">
+                <tr role="row">
+                  <th id="module-name-heading" scope="col" role="columnheader">能力模块</th>
+                  <th id="module-mechanism-heading" scope="col" role="columnheader">机制特点</th>
+                  <th id="module-value-heading" scope="col" role="columnheader">产品价值</th>
+                </tr>
+              </thead>
+              <tbody role="rowgroup">
+                <tr role="row">
+                  <th id="module-task-intelligence" scope="row" role="rowheader"><span class="module-code">M01</span><span>Task Intelligence</span><small>任务处理</small></th>
+                  <td role="cell" headers="module-task-intelligence module-mechanism-heading"><span class="module-table__mobile-label" aria-hidden="true">机制特点</span><span><strong>目标驱动的候选收敛</strong><br>围绕任务目标组织信息，在多种可能中逐步比较与筛选。</span></td>
+                  <td role="cell" headers="module-task-intelligence module-value-heading"><span class="module-table__mobile-label" aria-hidden="true">产品价值</span><span>让题目处理结果带有依据，便于呈现和复核。</span></td>
+                </tr>
+                <tr role="row">
+                  <th id="module-diagnostic-intelligence" scope="row" role="rowheader"><span class="module-code">M02</span><span>Diagnostic Intelligence</span><small>诊断</small></th>
+                  <td role="cell" headers="module-diagnostic-intelligence module-mechanism-heading"><span class="module-table__mobile-label" aria-hidden="true">机制特点</span><span><strong>基于实际表现的定位</strong><br>结合实际作答比较与定位，让判断对应到具体表现。</span></td>
+                  <td role="cell" headers="module-diagnostic-intelligence module-value-heading"><span class="module-table__mobile-label" aria-hidden="true">产品价值</span><span>帮助产品指出问题所在，提供有针对性的反馈。</span></td>
+                </tr>
+                <tr role="row">
+                  <th id="module-learning-action" scope="row" role="rowheader"><span class="module-code">M03</span><span>Learning Action</span><small>学习行动</small></th>
+                  <td role="cell" headers="module-learning-action module-mechanism-heading"><span class="module-table__mobile-label" aria-hidden="true">机制特点</span><span><strong>判断与行动相衔接</strong><br>结合当前表现和学习目标，组织后续行动与复测。</span></td>
+                  <td role="cell" headers="module-learning-action module-value-heading"><span class="module-table__mobile-label" aria-hidden="true">产品价值</span><span>把诊断结果衔接到讲解、练习和下一步安排。</span></td>
+                </tr>
+                <tr role="row">
+                  <th id="module-learner-state" scope="row" role="rowheader"><span class="module-code">M04</span><span>Learner State</span><small>学习者状态</small></th>
+                  <td role="cell" headers="module-learner-state module-mechanism-heading"><span class="module-table__mobile-label" aria-hidden="true">机制特点</span><span><strong>随表现持续更新</strong><br>根据积累的表现更新学习状态，同时保留信息缺口。</span></td>
+                  <td role="cell" headers="module-learner-state module-value-heading"><span class="module-table__mobile-label" aria-hidden="true">产品价值</span><span>为产品后续的学习安排提供持续积累的依据。</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="boundary-callout">
+            <span class="boundary-callout__icon" aria-hidden="true">↳</span>
+            <p><strong>贯穿四个模块的机制</strong> 围绕目标组织任务，以实际表现支持判断，将结果衔接到行动与状态更新。可从单个模块接入，也可按产品需要组合使用。</p>
+          </div>
+          <a class="text-link" href="#integration">评估接入方式 <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+
+      <section class="section-pad section-dark" id="integration" aria-labelledby="integration-title">
+        <div class="container">
+          <div class="section-heading section-heading--split section-heading--light">
+            <div>
+              <p class="section-index">05 <span>接入方式</span></p>
+              <h2 id="integration-title">从你的产品功能开始，按需接入 LIE。</h2>
+            </div>
+            <div class="section-heading__aside">
+              <p>三种接入起点都可以按场景选择，目标是把所需能力嵌入产品功能并增强现有流程。</p>
+            </div>
+          </div>
+          <div class="integration-layout">
+            <div class="integration-options" role="group" aria-label="选择接入方案">
+              <button type="button" class="integration-option" data-integration="a" aria-pressed="true">
+                <span class="integration-option__letter">A</span>
+                <span><strong>直接接入产品功能</strong><small>Customer Product / 业务输入 → LIE（按需调用模型 + 所选能力）→ 产品功能</small></span>
+                <span class="integration-option__arrow" aria-hidden="true">↗</span>
+              </button>
+              <button type="button" class="integration-option" data-integration="b" aria-pressed="false">
+                <span class="integration-option__letter">B</span>
+                <span><strong>连接已有模型或服务</strong><small>Existing Model / Service → Adapter（需要时）→ LIE → 上下游系统</small></span>
+                <span class="integration-option__arrow" aria-hidden="true">↗</span>
+              </button>
+              <button type="button" class="integration-option" data-integration="c" aria-pressed="false">
+                <span class="integration-option__letter">C</span>
+                <span><strong>使用已有结构化数据</strong><small>Structured Data → LIE Module → Existing Workflow</small></span>
+                <span class="integration-option__arrow" aria-hidden="true">↗</span>
+              </button>
+            </div>
+            <div class="integration-detail" id="integration-detail" aria-live="polite" aria-atomic="true">
+              <p class="integration-detail__eyebrow">SELECTED PATH · A</p>
+              <h3>直接把所选能力嵌入现有产品功能。</h3>
+              <div class="integration-responsibilities">
+                <div><span>接入位置</span><p>题目展示、作答提交或内容处理等产品环节。</p></div>
+                <div><span>增加的能力</span><p>按需调用模型，执行任务处理、作答诊断等所选能力。</p></div>
+                <div><span>结果用途</span><p>将处理结果返回产品，用于展示、反馈或后续学习安排。</p></div>
+              </div>
+              <p class="integration-detail__note">从一个产品功能开始，按需组合所需能力。</p>
+            </div>
+          </div>
+          <div class="integration-footer">
+            <span>接入现有产品</span><span aria-hidden="true">·</span><span>增加所需学习能力</span>
+            <a class="button button--light" href="#pilot">带上你的流程来验证 <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-      </div>
-      <div class="merge">
-        <div class="node soft">两个学生新的表现再进来，下一步的安排又跟着变</div>
-      </div>
-    </div>
-    <p class="claim">答案一样，<b>接下来要学的却不一样</b>。</p>
-  </div>
-</section>
+      </section>
 
-<!-- 5. Four capabilities -->
-<section class="block" id="capabilities">
-  <div class="wrap">
-    <div class="head">
-      <h2>能做的四件事</h2>
-    </div>
-    <div class="caps-top">
-      <div class="cap">
-        <h3>把你的题接进来</h3>
-        <p>你已有的题目和评分标准不用改，接进来之后，学生答过就能接着往下走。</p>
-        <p class="covers">从题库里挑一批题开始就行</p>
-      </div>
-      <div class="cap featured">
-        <h3>看清学生卡在哪</h3>
-        <p>把答案和写下来的步骤放在一起看。一次看不清，就再给学生来一个；看清了，就说出眼下最该处理的是哪一步。</p>
-        <p class="covers">学生答完一道题，就能用</p>
-      </div>
-    </div>
-    <div class="caps-bottom">
-      <div class="cap">
-        <h3>接着安排学什么</h3>
-        <p>看清之后，直接接上你平台里合适的讲解或练习，优先用你已有的内容。</p>
-        <p class="covers">讲解和练习还是你自己的</p>
-      </div>
-      <div class="cap">
-        <h3>记着学生走到哪了</h3>
-        <p>学生每有一次新的表现，都记进去，下一次判断时一并考虑。</p>
-        <p class="covers">给老师和家长看进展也用它</p>
-      </div>
-    </div>
-    <p class="skus-note">四件事可以只接一件，也可以连起来一起用。</p>
-  </div>
-</section>
+      <section class="section-pad" id="use-cases" aria-labelledby="use-cases-title">
+        <div class="container">
+          <div class="section-heading section-heading--split">
+            <div>
+              <p class="section-index">06 <span>场景</span></p>
+              <h2 id="use-cases-title">先找到一个值得验证的场景。</h2>
+            </div>
+            <div class="section-heading__aside">
+              <p>围绕一个业务流程确定接入点、样本与验收口径。以下是应用场景示意，并非客户案例。</p>
+            </div>
+          </div>
 
-<!-- 6. Integration -->
-<section class="block" id="integrate">
-  <div class="wrap">
-    <div class="integrate">
-      <div class="copy">
-        <h2>接进来，你的产品照旧</h2>
-        <p class="lede">你把题目、学生的作答，愿意的话再加上作答过程和以前的学习记录交给 LIE；LIE 把接下来该怎么安排交回给你的产品，由你的页面和内容去完成。前端、内容和业务流程都不用动。</p>
-        <p class="modes"><span>先接一件事</span><span>几件连起来</span><span>整条走完</span></p>
-        <div class="actions"><a class="btn btn-secondary" href="#contact">申请产品演示</a></div>
-      </div>
-      <div>
-        <div class="stack" aria-label="你已有的，LIE 接着做的，回到你产品里发生的事">
-          <div class="band"><span class="k">你已有的</span><div class="items"><span>题库</span><span>作业</span><span>测评</span><span>阅卷</span><span>学习资源</span><span>AI 讲解</span></div></div>
-          <div class="v" aria-hidden="true"></div>
-          <div class="band core"><span class="k">LIE 接着做的</span><div class="items"><span>接进题</span><span>看清卡在哪</span><span>安排学什么</span><span>记着走到哪</span></div></div>
-          <div class="v" aria-hidden="true"></div>
-          <div class="band"><span class="k">回到你的产品里</span><div class="items"><span>再来一个</span><span>打开合适的讲解</span><span>做一道练习</span><span>换一道再试</span></div></div>
+          <div class="use-case-list">
+            <article class="use-case-card">
+              <div class="use-case-card__top"><span class="use-case-number">01</span><h3>题库 / 教育内容</h3><span class="use-case-tag">内容与作答流</span></div>
+              <p class="use-case-card__intro">内容或作答入库后，核验结果是否可定位、可复核。</p>
+              <details class="use-case-details">
+                <summary>展开 7 项场景验证框架</summary>
+                <dl class="case-facts">
+                  <div><dt>现有流程</dt><dd>题目、内容与作答进入平台的既有流程。</dd></div>
+                  <div><dt>接入位置</dt><dd>内容或作答进入平台后、平台使用处理结果前。</dd></div>
+                  <div><dt>输入</dt><dd>任务、作答与来源信息。</dd></div>
+                  <div><dt>LIE 处理</dt><dd>候选匹配检查与结果定位。</dd></div>
+                  <div><dt>输出</dt><dd>供平台复核的结果与依据。</dd></div>
+                  <div><dt>可验证指标</dt><dd>双方确认的样本中可复核结果比例、未解决项、人工复核时间；范围待共同确认。</dd></div>
+                  <div><dt>Pilot</dt><dd>用约定样本对照当前流程，试点前确认基线、阈值与验收人。</dd></div>
+                </dl>
+              </details>
+              <button class="button button--outline use-case-cta" type="button" data-scenario="题库 / 教育内容">验证此场景 <span aria-hidden="true">↗</span></button>
+            </article>
+
+            <article class="use-case-card">
+              <div class="use-case-card__top"><span class="use-case-number">02</span><h3>AI 学习产品</h3><span class="use-case-tag">产品功能与后续行动之间</span></div>
+              <p class="use-case-card__intro">在需要的产品功能中嵌入学习能力，评估它与现有流程的配合。</p>
+              <details class="use-case-details">
+                <summary>展开 7 项场景验证框架</summary>
+                <dl class="case-facts">
+                  <div><dt>现有流程</dt><dd>学习交互、内容处理或产品已有的模型流程。</dd></div>
+                  <div><dt>接入位置</dt><dd>需要增加处理能力的产品功能与后续行动之间。</dd></div>
+                  <div><dt>输入</dt><dd>当前产品可提供的业务信息；也可按需沿用现有模型输出。</dd></div>
+                  <div><dt>LIE 处理</dt><dd>按约定模块对输入进行学习信息处理。</dd></div>
+                  <div><dt>输出</dt><dd>供产品消费的结构化结果与边界信息。</dd></div>
+                  <div><dt>可验证指标</dt><dd>结果在产品中的使用情况、未解决项、人工复核需求；评价范围和阈值需用样本确定。</dd></div>
+                  <div><dt>Pilot</dt><dd>固定输入样本，与当前产品链路对照，明确成功阈值和验收责任。</dd></div>
+                </dl>
+              </details>
+              <button class="button button--outline use-case-cta" type="button" data-scenario="AI 学习产品">验证此场景 <span aria-hidden="true">↗</span></button>
+            </article>
+
+            <article class="use-case-card">
+              <div class="use-case-card__top"><span class="use-case-number">03</span><h3>学习机 / 教育硬件</h3><span class="use-case-tag">设备与服务流程</span></div>
+              <p class="use-case-card__intro">在设备与服务流程间，评估约定的端云或 OEM 边界。</p>
+              <details class="use-case-details">
+                <summary>展开 7 项场景验证框架</summary>
+                <dl class="case-facts">
+                  <div><dt>现有流程</dt><dd>设备采集信息并交给已有服务处理。</dd></div>
+                  <div><dt>接入位置</dt><dd>双方约定的端侧或云侧调用点。</dd></div>
+                  <div><dt>输入</dt><dd>设备采集的题目、作答等业务信息；也可按需复用现有结构化数据。</dd></div>
+                  <div><dt>LIE 处理</dt><dd>按试点选定能力处理该场景的学习信息。</dd></div>
+                  <div><dt>输出</dt><dd>设备或客户系统可按约定消费的结果。</dd></div>
+                  <div><dt>可验证指标</dt><dd>约定设备与网络环境中的链路成功率、延迟分布；阈值待测。</dd></div>
+                  <div><dt>Pilot</dt><dd>共同选择设备、环境与样本，确认运行责任及测试截止条件。</dd></div>
+                </dl>
+              </details>
+              <button class="button button--outline use-case-cta" type="button" data-scenario="学习机 / 教育硬件">验证此场景 <span aria-hidden="true">↗</span></button>
+            </article>
+
+            <article class="use-case-card">
+              <div class="use-case-card__top"><span class="use-case-number">04</span><h3>出版社 / 内容公司</h3><span class="use-case-tag">内容加工流程</span></div>
+              <p class="use-case-card__intro">在内容加工流程中核验处理结果是否便于使用和复核。</p>
+              <details class="use-case-details">
+                <summary>展开 7 项场景验证框架</summary>
+                <dl class="case-facts">
+                  <div><dt>现有流程</dt><dd>编辑、内容加工与内容服务准备。</dd></div>
+                  <div><dt>接入位置</dt><dd>内容加工过程中、内容服务使用结果前。</dd></div>
+                  <div><dt>输入</dt><dd>教材内容、编辑资料与相关主题信息。</dd></div>
+                  <div><dt>LIE 处理</dt><dd>按场景组织内容处理，并匹配适用结果。</dd></div>
+                  <div><dt>输出</dt><dd>可供内容服务使用并保留依据的结果。</dd></div>
+                  <div><dt>可验证指标</dt><dd>约定样本的来源关联、复核一致性与覆盖缺口。</dd></div>
+                  <div><dt>Pilot</dt><dd>选定内容范围与复核方法，试点前明确基线、指标范围及验收人。</dd></div>
+                </dl>
+              </details>
+              <button class="button button--outline use-case-cta" type="button" data-scenario="出版社 / 内容公司">验证此场景 <span aria-hidden="true">↗</span></button>
+            </article>
+          </div>
+          <p class="section-note">指标只是建议测量项。需先确定基线、样本范围、分母与验收口径，再共同确定阈值。</p>
         </div>
+      </section>
+
+      <section class="section-pad section-tint" id="pilot" aria-labelledby="pilot-title">
+        <div class="container">
+          <div class="section-heading section-heading--split">
+            <div>
+              <p class="section-index">07 <span>Pilot</span></p>
+              <h2 id="pilot-title">用你的真实场景，定义一次可验收的试点。</h2>
+            </div>
+            <div class="section-heading__aside">
+              <p>先对齐一个场景、一条产品线和一套验收指标，再确认小型付费试点的范围。</p>
+            </div>
+          </div>
+
+          <div class="pilot-steps-layout">
+            <ol class="pilot-steps">
+              <li><span>01</span><strong>选择场景</strong></li>
+              <li><span>02</span><strong>提供样本</strong></li>
+              <li><span>03</span><strong>定义结果</strong></li>
+              <li><span>04</span><strong>接入 LIE</strong></li>
+              <li><span>05</span><strong>对照测试</strong></li>
+              <li><span>06</span><strong>验收</strong></li>
+              <li><span>07</span><strong>转正式授权</strong></li>
+            </ol>
+            <aside class="pilot-acceptance" aria-labelledby="pilot-acceptance-title">
+              <p class="pilot-acceptance__eyebrow">AGREE BEFORE THE PILOT</p>
+              <h3 id="pilot-acceptance-title">试点前共同确认</h3>
+              <ul>
+                <li>基线</li>
+                <li>样本与测试方案</li>
+                <li>KPI 与成功阈值</li>
+                <li>截止条件</li>
+                <li>验收人</li>
+              </ul>
+            </aside>
+          </div>
+
+          <div class="pilot-form-layout">
+            <div class="pilot-form-intro">
+              <p class="eyebrow"><span class="eyebrow__line"></span> LOCAL PREVIEW</p>
+              <h3>先把评估信息整理清楚。</h3>
+              <p>填写八项信息后，可在本页生成预览，检查场景描述是否完整。</p>
+              <div class="local-only-note"><span aria-hidden="true">⌁</span><p>本页可预览申请内容，暂不发送或保存申请。</p></div>
+            </div>
+
+            <div class="pilot-form-card">
+              <form id="pilot-form">
+                <div class="form-grid">
+                  <div class="form-field">
+                    <label for="pilot-company">公司 <span>必填</span></label>
+                    <input id="pilot-company" name="company" type="text" autocomplete="organization" required>
+                  </div>
+                  <div class="form-field">
+                    <label for="pilot-product">产品 <span>必填</span></label>
+                    <input id="pilot-product" name="product" type="text" required>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="pilot-scenario">业务场景 <span>必填</span></label>
+                    <input id="pilot-scenario" name="scenario" type="text" required>
+                    <small>可从上方场景卡片选择，也可以自行描述。</small>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="pilot-current-workflow">当前流程 <span>必填</span></label>
+                    <textarea id="pilot-current-workflow" name="currentWorkflow" rows="3" required></textarea>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="pilot-desired-outcome">希望改善什么 <span>必填</span></label>
+                    <textarea id="pilot-desired-outcome" name="desiredOutcome" rows="3" required></textarea>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="pilot-data-format">当前可提供的输入 <span>必填</span></label>
+                    <input id="pilot-data-format" name="dataFormat" type="text" required>
+                    <small>例如：题目 / 作答文本、现有内容、产品数据或结构化数据；也可填写“尚需梳理”。</small>
+                  </div>
+                  <div class="form-field">
+                    <label for="pilot-integration-mode">预计接入方式 <span>必填</span></label>
+                    <select id="pilot-integration-mode" name="integrationMode" required>
+                      <option value="" selected disabled>请选择意向方式</option>
+                      <option value="API">API</option>
+                      <option value="Adapter">Adapter</option>
+                      <option value="私有部署">私有部署</option>
+                      <option value="OEM · Embedded">OEM · Embedded</option>
+                      <option value="尚需评估">尚需评估</option>
+                    </select>
+                    <small>选项代表意向，具体范围需共同确认。</small>
+                  </div>
+                  <div class="form-field">
+                    <label for="pilot-contact">联系人 <span>必填</span></label>
+                    <input id="pilot-contact" name="contact" type="text" autocomplete="name" required>
+                    <small>姓名及可联系的邮箱或电话。</small>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button class="button button--primary" type="submit">预览申请内容 <span aria-hidden="true">→</span></button>
+                  <p>当前按钮只生成本地预览，不会提交申请。</p>
+                </div>
+                <p id="pilot-status" class="form-status" aria-live="polite" aria-atomic="true"></p>
+              </form>
+              <section class="preview-card" id="pilot-preview" aria-labelledby="pilot-preview-title" hidden>
+                <div class="preview-card__header">
+                  <span class="status-pill status-pill--green">LOCAL PREVIEW</span>
+                  <span>尚未提交</span>
+                </div>
+                <h4 id="pilot-preview-title">申请内容预览</h4>
+                <div class="preview-content"></div>
+                <p class="preview-card__footnote">此内容只显示在当前页面。没有申请编号，也没有发送给任何接收方。</p>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad section-pad--tight" id="deployment" aria-labelledby="deployment-title">
+        <div class="container">
+          <div class="section-heading section-heading--split">
+            <div>
+              <p class="section-index">08 <span>交付评估</span></p>
+              <h2 id="deployment-title">按交付边界，确定合作方式。</h2>
+            </div>
+            <div class="section-heading__aside">
+              <p>共同确认能力模块、业务场景或产品线、授权期限、使用规模，以及交付与服务责任。</p>
+            </div>
+          </div>
+          <div class="delivery-list">
+            <div class="delivery-row"><span class="delivery-row__index">01</span><div><h3>Cloud API</h3><p>评估连接方式、产品接入点与双方运行责任。</p></div><span class="delivery-row__status">按场景确认</span></div>
+            <div class="delivery-row"><span class="delivery-row__index">02</span><div><h3>Private deployment</h3><p>评估指定环境、交付范围与维护责任。</p></div><span class="delivery-row__status">按场景确认</span></div>
+            <div class="delivery-row"><span class="delivery-row__index">03</span><div><h3>OEM · Embedded</h3><p>评估嵌入位置、产品边界与双方责任。</p></div><span class="delivery-row__status">按场景确认</span></div>
+            <div class="delivery-row"><span class="delivery-row__index">04</span><div><h3>模块授权</h3><p>评估所选模块、期限、使用规模与范围。</p></div><span class="delivery-row__status">按场景确认</span></div>
+          </div>
+          <p class="delivery-note"><span aria-hidden="true">i</span> 交付方式与可用范围需在试点前确认。此处列出评估方向，不表示已有可直接开通的服务。</p>
+          <a class="text-link" href="#pilot">确认试点范围 <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+
+      <section class="section-pad section-tint" id="docs" aria-labelledby="docs-title">
+        <div class="container">
+          <div class="section-heading section-heading--split">
+            <div>
+              <p class="section-index">09 <span>Docs</span></p>
+              <h2 id="docs-title">从公开概览，了解产品与接入方式。</h2>
+            </div>
+            <div class="section-heading__aside">
+              <p>从产品概览和工作原理开始，了解可提供的业务材料、结果用途、接入方式与版本说明。</p>
+            </div>
+          </div>
+          <div class="docs-layout">
+            <div class="docs-intro-card">
+              <span class="docs-folder-icon" aria-hidden="true">▱</span>
+              <h3>产品与接入概览</h3>
+              <p>了解 LIE 如何增强产品功能、连接现有流程和使用处理结果。具体技术接口资料在授权对接中提供。</p>
+              <a class="button button--secondary" href="#integration">评估产品接入 <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="docs-directory" aria-label="产品与接入概览目录">
+              <details><summary><span>01</span><strong>产品概览</strong><small>适用范围、可选能力与评估起点</small></summary><p>从一个产品功能或一段流程开始了解 LIE。</p></details>
+              <details><summary><span>02</span><strong>工作原理</strong><small>业务输入、LIE 处理与产品功能之间的关系</small></summary><p>说明模型调用、学习处理与结果使用的位置。</p></details>
+              <details><summary><span>03</span><strong>可提供的业务材料</strong><small>可用于场景评估的内容与信息</small></summary><p>例如题目、作答、现有内容或产品流程信息。</p></details>
+              <details><summary><span>04</span><strong>结果如何使用</strong><small>结果进入产品功能或业务流程的方式</small></summary><p>围绕具体场景说明可复核和待确认的结果。</p></details>
+              <details><summary><span>05</span><strong>接入方式</strong><small>嵌入产品功能的可选起点</small></summary><p>按产品现状选择直接接入、连接现有服务或使用已有数据。</p></details>
+              <details><summary><span>06</span><strong>连接现有服务</strong><small>评估连接已有模型或业务系统的方式</small></summary><p>说明接入位置、可用信息与双方需确认的事项。</p></details>
+              <details><summary><span>07</span><strong>能力模块</strong><small>四个模块面向的业务用途</small></summary><p>了解任务处理、诊断、学习行动与学习者状态的定位。</p></details>
+              <details><summary><span>08</span><strong>场景示例</strong><small>可能的接入位置与评估问题</small></summary><p>用题库、AI 学习产品、教育硬件和内容加工场景理解应用方向。</p></details>
+              <details><summary><span>09</span><strong>交付方式</strong><small>可讨论的合作方向与确认事项</small></summary><p>按场景讨论交付范围、使用方式和双方责任。</p></details>
+              <details><summary><span>10</span><strong>版本说明</strong><small>公开内容的版本与变更范围</small></summary><p>说明页面信息适用范围以及后续更新情况。</p></details>
+            </div>
+          </div>
+          <div class="docs-bottom-row">
+            <p><span class="status-pill">产品概览</span> 按场景了解能力与接入方式；具体技术接口资料在授权对接中提供。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta section-pad" id="final-cta" aria-labelledby="final-cta-title">
+        <div class="container final-cta__inner">
+          <div>
+            <p class="section-index section-index--light">10 <span>下一步</span></p>
+            <h2 id="final-cta-title">带来一个场景，明确下一步。</h2>
+            <p>告诉我们现有流程、可提供的数据和希望改善的结果，一起确定适合验证的范围。</p>
+          </div>
+          <div class="button-row button-row--vertical">
+            <a class="button button--light" href="#pilot">申请场景验证 <span aria-hidden="true">↗</span></a>
+            <a class="button button--dark-outline" href="#architecture">查看工作原理 <span aria-hidden="true">↑</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__top">
+        <a class="brand brand--footer" href="#top" aria-label="LIE 回到顶部">
+          <span class="brand__mark" aria-hidden="true">L</span>
+          <span class="brand__copy"><strong>LIE</strong><span>Learning Intelligence Engine</span></span>
+        </a>
+        <a class="text-link" href="#top">回到顶部 <span aria-hidden="true">↑</span></a>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- 7. Final CTA -->
-<section class="cta" id="contact">
-  <div class="wrap">
-    <div>
-      <h2>从你产品里的一个场景开始</h2>
-      <p>题库、作业、测评、错题本或 AI 讲解，挑一个你最熟的场景，我们一起看看学生答完之后，接下来能怎么走。</p>
-    </div>
-    <div class="actions">
-      <a class="btn btn-onaccent" href="mailto:panxingyu4869z@gmail.com?subject=申请产品演示">申请产品演示</a>
-      <a class="btn btn-onaccent-ghost" href="#integrate">查看接入示例</a>
-      <a class="link" href="mailto:panxingyu4869z@gmail.com?subject=讨论具体合作场景">讨论具体合作场景 →</a>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<footer>
-  <div class="wrap">
-    <span>岐曌KI · Kizharyn Technologies</span>
-    <a href="#">隐私政策</a>
-    <a href="mailto:panxingyu4869z@gmail.com">合作邮箱：panxingyu4869z@gmail.com</a>
-    <a href="mailto:p1172545066@163.com">p1172545066@163.com</a>
-    <span class="fill">Learning Intelligence Engine</span>
-  </div>
-</footer>
-
-</body>
+      <div class="container site-footer__bottom">
+        <span>© LIE</span>
+      </div>
+    </footer>
+  </body>
 </html>
