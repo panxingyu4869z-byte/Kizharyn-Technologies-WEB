@@ -48,7 +48,7 @@ npm run test:browser
 node scripts/build.mjs ./dist
 ```
 
-部署目录应为该静态输出目录；不需要把源码、测试或开发服务暴露给访客。当前未更改原 Vercel 线上站点。
+Vercel 使用仓库根目录的 vercel.json，执行 node scripts/build.mjs public，并将 public 作为输出目录。该目录包含十五页 HTML 和共享资源，不包含源码、测试或开发服务。本地 npm run build 仍更新根目录页面，供现有预览服务使用。
 
 ## 联系功能与发布限制
 
