@@ -1,231 +1,108 @@
 "use strict";
 
-const stepContent = [
-  {
-    name: "理解任务",
-    english: "Understand",
-    description: "读取题目、作答或内容，明确要处理的任务与目标。",
-    focus: "任务与目标",
-  },
-  {
-    name: "学习处理",
-    english: "Process",
-    description: "按场景组合所需能力，处理当前任务。",
-    focus: "所需能力",
-  },
-  {
-    name: "形成判断",
-    english: "Assess",
-    description: "形成判断，并保留依据与待确认事项。",
-    focus: "判断与依据",
-  },
-  {
-    name: "输出结果",
-    english: "Deliver",
-    description: "输出结构化结果，供产品功能继续使用。",
-    focus: "结果与用途",
-  },
-];
-
-const integrationContent = {
-  a: {
-    eyebrow: "SELECTED PATH · A",
-    title: "直接把所选能力嵌入现有产品功能。",
-    responsibilities: [
-      "题目展示、作答提交或内容处理等产品环节。",
-      "按需调用模型，执行任务处理、作答诊断等所选能力。",
-      "将处理结果返回产品，用于展示、反馈或后续学习安排。",
-    ],
-  },
-  b: {
-    eyebrow: "SELECTED PATH · B",
-    title: "连接已有模型或服务，为产品增加学习处理能力。",
-    responsibilities: [
-      "已有模型或业务服务产生结果之后。",
-      "接收已有结果，完成候选比较、检查与定位等处理。",
-      "将学习处理结果交给下游功能继续使用。",
-    ],
-  },
-  c: {
-    eyebrow: "SELECTED PATH · C",
-    title: "从已有结构化数据起步，改善现有业务流程。",
-    responsibilities: [
-      "已有题库、内容数据或学习记录的处理流程。",
-      "使用所选模块处理数据，生成任务、诊断或学习状态结果。",
-      "将结果返回现有系统，用于内容处理、学习反馈或记录更新。",
-    ],
-  },
-};
-
-function activateStep(selectedButton, buttons, panel) {
-  const selectedIndex = Number(selectedButton.dataset.step);
-  const step = stepContent[selectedIndex];
-
-  buttons.forEach((button) => {
-    const isSelected = button === selectedButton;
-    button.setAttribute("aria-selected", String(isSelected));
-    button.tabIndex = isSelected ? 0 : -1;
-  });
-
-  panel.setAttribute("aria-labelledby", selectedButton.id);
-  panel.replaceChildren();
-
-  const eyebrow = document.createElement("p");
-  eyebrow.className = "step-panel__eyebrow";
-  eyebrow.textContent = `CURRENT STEP · ${String(selectedIndex + 1).padStart(2, "0")}`;
-
-  const heading = document.createElement("h3");
-  heading.append(document.createTextNode(step.name));
-  const english = document.createElement("span");
-  english.textContent = step.english;
-  heading.append(english);
-
-  const description = document.createElement("p");
-  description.textContent = step.description;
-
-  const meta = document.createElement("div");
-  meta.className = "step-panel__meta";
-  const label = document.createElement("span");
-  label.textContent = "关注";
-  const focus = document.createElement("strong");
-  focus.textContent = step.focus;
-  meta.append(label, focus);
-
-  panel.append(eyebrow, heading, description, meta);
+function revealContactInformation() {
+  const information = document.querySelector('#privacy');
+  if (window.location.hash === '#privacy' && information instanceof HTMLDetailsElement) {
+    information.open = true;
+  }
 }
+revealContactInformation();
+window.addEventListener('hashchange', revealContactInformation);
 
-const stepButtons = Array.from(document.querySelectorAll("[data-step]"));
-const stepPanel = document.getElementById("step-detail");
-
-if (stepPanel && stepButtons.length > 0) {
-  stepButtons.forEach((button, index) => {
-    button.addEventListener("click", () => activateStep(button, stepButtons, stepPanel));
-    button.addEventListener("keydown", (event) => {
-      if (event.key !== "ArrowDown" && event.key !== "ArrowUp" && event.key !== "ArrowLeft" && event.key !== "ArrowRight" && event.key !== "Home" && event.key !== "End") {
-        return;
-      }
-
-      event.preventDefault();
-      let nextIndex = index;
-      if (event.key === "ArrowDown" || event.key === "ArrowRight") nextIndex = (index + 1) % stepButtons.length;
-      if (event.key === "ArrowUp" || event.key === "ArrowLeft") nextIndex = (index - 1 + stepButtons.length) % stepButtons.length;
-      if (event.key === "Home") nextIndex = 0;
-      if (event.key === "End") nextIndex = stepButtons.length - 1;
-
-      stepButtons[nextIndex].focus();
-      activateStep(stepButtons[nextIndex], stepButtons, stepPanel);
-    });
-  });
-}
-
-const integrationButtons = Array.from(document.querySelectorAll("[data-integration]"));
-const integrationPanel = document.getElementById("integration-detail");
-
-function activateIntegration(selectedButton) {
-  const selectedKey = selectedButton.dataset.integration;
-  const content = integrationContent[selectedKey];
-
-  integrationButtons.forEach((button) => {
-    button.setAttribute("aria-pressed", String(button === selectedButton));
-  });
-
-  if (!integrationPanel || !content) return;
-
-  integrationPanel.replaceChildren();
-
-  const eyebrow = document.createElement("p");
-  eyebrow.className = "integration-detail__eyebrow";
-  eyebrow.textContent = content.eyebrow;
-  const heading = document.createElement("h3");
-  heading.textContent = content.title;
-  const responsibilities = document.createElement("div");
-  responsibilities.className = "integration-responsibilities";
-
-  ["接入位置", "增加的能力", "结果用途"].forEach((labelText, index) => {
-    const item = document.createElement("div");
-    const label = document.createElement("span");
-    label.textContent = labelText;
-    const description = document.createElement("p");
-    description.textContent = content.responsibilities[index];
-    item.append(label, description);
-    responsibilities.append(item);
-  });
-
-  const note = document.createElement("p");
-  note.className = "integration-detail__note";
-  note.textContent = "从一个产品功能开始，按需组合所需能力。";
-  integrationPanel.append(eyebrow, heading, responsibilities, note);
-}
-
-integrationButtons.forEach((button) => {
-  button.addEventListener("click", () => activateIntegration(button));
-});
-
-const pilotForm = document.getElementById("pilot-form");
-const pilotPreview = document.getElementById("pilot-preview");
-const pilotStatus = document.getElementById("pilot-status");
-const previewContent = pilotPreview?.querySelector(".preview-content");
-const pilotScenario = pilotForm?.elements.namedItem("scenario");
-let hasCurrentPreview = false;
-
-function clearPreviewAfterEdit() {
-  if (!hasCurrentPreview || !pilotPreview || !previewContent || !pilotStatus) return;
-  hasCurrentPreview = false;
-  previewContent.replaceChildren();
-  pilotPreview.hidden = true;
-  pilotStatus.textContent = "内容已修改，请重新生成预览。";
-}
-
-if (pilotForm && pilotPreview && pilotStatus && previewContent) {
-  pilotForm.addEventListener("input", clearPreviewAfterEdit);
-  pilotForm.addEventListener("change", clearPreviewAfterEdit);
-  pilotForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    if (!pilotForm.reportValidity()) return;
-
-    const fields = [
-      ["公司", "company"],
-      ["产品", "product"],
-      ["业务场景", "scenario"],
-      ["当前流程", "currentWorkflow"],
-      ["希望改善什么", "desiredOutcome"],
-      ["当前可提供的输入", "dataFormat"],
-      ["预计接入方式", "integrationMode"],
-      ["联系人", "contact"],
-    ];
-    const definitionList = document.createElement("dl");
-
-    fields.forEach(([labelText, fieldName]) => {
-      const field = pilotForm.elements.namedItem(fieldName);
-      const label = document.createElement("dt");
-      const value = document.createElement("dd");
-      label.textContent = labelText;
-      value.textContent = field.value.trim();
-      definitionList.append(label, value);
-    });
-
-    previewContent.replaceChildren(definitionList);
-    pilotPreview.hidden = false;
-    pilotStatus.textContent = "已生成申请预览，尚未提交。";
-    hasCurrentPreview = true;
-  });
-}
-
-document.querySelectorAll("[data-scenario]").forEach((button) => {
-  button.addEventListener("click", () => {
-    if (!(pilotScenario instanceof HTMLInputElement)) return;
-
-    const requestedScenario = button.dataset.scenario ?? "";
-    if (pilotScenario.value.trim() === "") {
-      pilotScenario.value = requestedScenario;
-      pilotScenario.dispatchEvent(new Event("input", { bubbles: true }));
-      pilotStatus?.replaceChildren(document.createTextNode(`已选择“${requestedScenario}”，可继续填写试点信息。`));
-    } else {
-      pilotStatus?.replaceChildren(document.createTextNode("已保留你填写的业务场景；如需更换，请直接编辑此字段。"));
+// Language links keep the current page and the supported contact context.
+function updateLanguageLinks() {
+  for (const element of document.querySelectorAll('.language-nav a')) {
+    if (!(element instanceof HTMLAnchorElement)) continue;
+    const target = new URL(element.href);
+    const intent = new URLSearchParams(window.location.search).get('intent');
+    if (document.body.dataset.page === 'contact' && (intent === 'research' || intent === 'product')) {
+      target.searchParams.set('intent', intent);
     }
+    target.hash = window.location.hash;
+    element.href = target.href;
+  }
+}
+updateLanguageLinks();
+window.addEventListener('hashchange', updateLanguageLinks);
 
-    document.getElementById("pilot")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    window.setTimeout(() => pilotScenario.focus({ preventScroll: true }), 250);
+const contactForm = document.querySelector('#contact-form');
+const contactStatus = document.querySelector('#contact-status');
+const mailActions = document.querySelector('#mail-actions');
+const mailLink = document.querySelector('#mail-link');
+const copyButton = document.querySelector('#copy-mail');
+const contactCopy = document.querySelector('#contact-copy');
+
+if (contactForm instanceof HTMLFormElement && contactStatus instanceof HTMLElement && mailActions instanceof HTMLElement && mailLink instanceof HTMLAnchorElement && copyButton instanceof HTMLButtonElement && contactCopy instanceof HTMLScriptElement) {
+  /** @type {typeof import('../content/locales/zh.mjs').default.form} */
+  const messages = JSON.parse(contactCopy.textContent || '{}');
+  const form = contactForm;
+  const status = contactStatus;
+  const actions = mailActions;
+  const link = mailLink;
+  const copy = copyButton;
+  const submitButton = form.querySelector('button[type="submit"]');
+  if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
+  const messageField = form.elements.namedItem('message');
+  const emailField = form.elements.namedItem('email');
+  const recipient = link.href.replace(/^mailto:/, '').split('?')[0];
+  let currentDraft = '';
+  const requestedIntent = new URLSearchParams(window.location.search).get('intent');
+
+  if (requestedIntent === 'research' || requestedIntent === 'product') {
+    const choice = form.querySelector(`input[name="intent"][value="${requestedIntent}"]`);
+    if (choice instanceof HTMLInputElement) choice.checked = true;
+  }
+
+  function resetDraft() {
+    if (messageField instanceof HTMLTextAreaElement) messageField.setCustomValidity('');
+    if (emailField instanceof HTMLInputElement) emailField.setCustomValidity('');
+    if (!currentDraft) return;
+    currentDraft = '';
+    actions.hidden = true;
+    link.href = `mailto:${recipient}`;
+    status.textContent = messages.changed;
+  }
+
+  form.addEventListener('input', resetDraft);
+  form.addEventListener('change', resetDraft);
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!(messageField instanceof HTMLTextAreaElement) || !(emailField instanceof HTMLInputElement)) return;
+    messageField.setCustomValidity(messageField.value.trim() ? '' : messages.messageRequired);
+    emailField.setCustomValidity(emailField.value.trim() ? '' : messages.emailRequired);
+    if (!form.reportValidity()) return;
+
+    const values = new FormData(form);
+    const intent = values.get('intent');
+    if (intent !== 'research' && intent !== 'product') return;
+    const subject = messages[intent];
+    const email = String(values.get('email') ?? '').trim();
+    const name = String(values.get('name') ?? '').trim();
+    const organization = String(values.get('organization') ?? '').trim();
+    const message = String(values.get('message') ?? '').trim();
+    const body = [
+      `${messages.intent}${messages.separator}${subject}`,
+      `${messages.email}${messages.separator}${email}`,
+      ...(name ? [`${messages.name}${messages.separator}${name}`] : []),
+      ...(organization ? [`${messages.organization}${messages.separator}${organization}`] : []),
+      '', `${messages.message}${messages.separator}`, message,
+    ].join('\n');
+
+    currentDraft = `${messages.recipient}${messages.separator}${recipient}\n${messages.subject}${messages.separator}${subject}\n\n${body}`;
+    link.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    actions.hidden = false;
+    status.textContent = messages.ready;
+    link.focus({ preventScroll: true });
   });
-});
+
+  copy.addEventListener('click', async () => {
+    if (!currentDraft) return;
+    const copiedDraft = currentDraft;
+    try {
+      await navigator.clipboard.writeText(copiedDraft);
+      if (copiedDraft === currentDraft) status.textContent = messages.copied;
+    } catch {
+      if (copiedDraft === currentDraft) status.textContent = messages.copyFailed;
+    }
+  });
+}
