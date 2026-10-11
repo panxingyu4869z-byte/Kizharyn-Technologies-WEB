@@ -2,7 +2,7 @@ import { company as sharedCompany } from '../site.mjs';
 
 const company = {
   ...sharedCompany,
-  description: 'Wir erforschen kognitive Architekturen und entwickeln intelligente Technologien für konkrete Aufgaben.',
+  description: 'Mit Stalyra untersuchen wir das Zusammenspiel von Information, Zielen und Handlungen. LIE zeigt eine Produktanwendung im Lernbereich.',
 };
 
 const research = {
@@ -10,13 +10,13 @@ const research = {
   english: 'Stalyra Cognitive Architecture',
   description: 'Ein Architekturkonzept, das Repräsentation, Vorhersage, Ziele und Planung koordiniert und Einschätzungen anhand neuer Informationen aktualisiert.',
   overview: 'Stalyra untersucht das Zusammenspiel von Informationsverarbeitung, Vorhersage, Zielen und Planung. Im Architekturkonzept dienen Handlungsergebnisse und neue Informationen dazu, bestehende Einschätzungen zu aktualisieren und die weitere Verarbeitung zu unterstützen.',
-  definition: 'Stalyra ist eine rekursive kognitive Architektur, die auf der Aktualisierung eines gemeinsamen Überzeugungszustands beruht. Der übergeordnete Knoten speichert diesen Zustand und koordiniert vier Arten von Prozessen: Repräsentation, Vorhersage, Ziele und Planung. Handlungsergebnisse und neue Beobachtungen aktualisieren die gemeinsame Posterior-Verteilung. Diese wird in den übergeordneten Knoten zurückgeschrieben und bildet die Grundlage für den nächsten Berechnungsdurchlauf.',
+  definition: 'Stalyra untersucht die Koordination von Information, Zielen und Handlungen. Beschreiben Sie für Forschungsanfragen Ihren Anwendungsfall, vorhandene Informationen, Ziele und die gewünschte Ergebnisbewertung.',
 };
 
 const product = {
   name: 'LIE｜Lern-Engine',
   english: 'Learning Intelligence Engine',
-  description: 'LIE bietet Unternehmensanwendungen Aufgabenverarbeitung, Prüfung von Lösungswegen, nächste Maßnahmen und Leistungserfassung – einzeln oder kombiniert.',
+  description: 'Als Produktbeispiel für den Lernbereich bietet LIE Unternehmensanwendungen Aufgabenverarbeitung, Prüfung von Lösungswegen, nächste Maßnahmen und Leistungserfassung – einzeln oder kombiniert.',
   introduction: 'Aufgaben, Materialien und Lösungswege werden analysiert, um nächste Lernschritte vorzubereiten.',
 };
 
@@ -49,20 +49,20 @@ export default {
     architectureName: 'Kognitive Architektur', learnStalyra: 'Stalyra entdecken',
     learningEngine: 'Lern-Engine', productTeaser: 'Informationen zu Funktionsumfang, Ein- und Ausgaben sowie Integrationsbedingungen.',
     learnLie: 'Mehr über LIE', dataApplications: 'Aufgaben, Analyse und Handlung verbinden',
-    conceptDiagram: 'Architekturkonzept',
-    architectureAria: 'Der übergeordnete Knoten speichert den gemeinsamen Überzeugungszustand und koordiniert Repräsentation, Vorhersage, Ziele und Planung. Handlungsergebnisse und neue Beobachtungen aktualisieren die gemeinsame Posterior-Verteilung, die in den übergeordneten Knoten zurückgeschrieben wird. Die Darstellung legt keine feste Ausführungsreihenfolge der vier Prozesse fest.',
-    parentNode: 'Übergeordneter Knoten', jointBelief: 'Gemeinsamer Überzeugungszustand', processes: ['Repräsentation', 'Vorhersage', 'Ziele', 'Planung'],
-    actionResults: 'Handlungsergebnisse', and: 'und', observations: 'Neue Beobachtungen', jointPosterior: 'Gemeinsame Posterior-Verteilung',
-    update: 'Aktualisierung', writeBack: 'Rückschreiben in den übergeordneten Knoten',
-    architectureCaption: 'Der gemeinsame Überzeugungszustand koordiniert die vier Prozesse. Die aktualisierte Posterior-Verteilung wird zurückgeschrieben und bildet die Grundlage für den nächsten Berechnungsdurchlauf.',
+    conceptDiagram: 'Themen für Forschungsanfragen',
+    architectureAria: 'Themen für Forschungsanfragen: Anwendungsfall, Informationen, Erwartungen, Ziele und Pläne. Tatsächliche Ergebnisse und ergänzende Materialien helfen, Bewertungsumfang und weitere Gesprächsthemen festzulegen.',
+    parentNode: 'Forschungsaustausch', jointBelief: 'Anwendungsfall', processes: ['Repräsentation', 'Vorhersage', 'Ziele', 'Planung'],
+    actionResults: 'Handlungsergebnisse', and: 'und', observations: 'Neue Beobachtungen', jointPosterior: 'Bewertungsumfang',
+    update: 'Aktualisierung', writeBack: 'Weitere Gesprächsthemen festlegen',
+    architectureCaption: 'Ergebnisbewertung anhand von Anwendungsfall, Zielen und Materialien besprechen.',
     overviewLabels: ['Information', 'Ziele', 'Handlung'], overviewCaption: 'Information, Ziele und Handlung im Zusammenspiel',
     integrationDiagram: 'Integrationsübersicht', input: 'Eingabe', output: 'Ausgabe',
     learningData: 'Aufgaben, Materialien und Antworten', structuredResults: 'Analyse, Lernvorschläge und Lernstand',
     integrationCaption: 'Aufgabenanalyse, Prüfung von Lösungswegen, Lernmaßnahmen und Lernstand werden miteinander verbunden.',
     researchEyebrow: 'FORSCHUNG / STALYRA', designLabel: 'Architekturansatz',
-    designTitle: 'Information, Ziele und Handlung verbinden', architectureDetails: 'Architektur im Detail',
-    architectureNote: 'Das Diagramm veranschaulicht die Beziehungen zwischen den Komponenten und legt keine Ausführungsreihenfolge fest.',
-    productEyebrow: 'PRODUKT / LIE', consoleEntry: 'Unternehmens-Console', integrationContact: 'Integration anfragen',
+    designTitle: 'Information, Ziele und Handlung verbinden', architectureDetails: 'Hinweise für Forschungsanfragen',
+    architectureNote: 'Die Grafik nennt Informationen für eine Forschungsanfrage.',
+    productEyebrow: 'ANWENDUNGSBEISPIEL / LIE', consoleEntry: 'Unternehmens-Console', integrationContact: 'Integration anfragen',
     applicationsLabel: 'Produktanwendung', applicationsTitle: 'Beratung zur Produktanwendung',
     applicationsDescription: 'Datenanforderungen, Integrationsbedingungen und Validierungsziele werden anhand Ihrer Anforderungen geklärt.',
     discussions: [

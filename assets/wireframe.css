@@ -218,16 +218,9 @@ input[type="radio"] { accent-color:var(--accent); }
 .module-contract { font-size:13px; margin:20px 0; padding-top:16px; border-top:1px solid var(--divider); }
 .module-contract dt { font-weight:600; color:var(--text); margin-top:12px; }
 .module-contract dd { margin:6px 0 0; color:var(--muted); }
-.hero-brand { min-width:0; padding:40px 0 40px 40px; border-left:1px solid var(--divider); }
-.hero-brand__caption { font-size:13px; color:var(--muted); letter-spacing:.08em; }
-.hero-brand__wordmark { margin-top:24px; font-size:clamp(32px,3.2vw,48px); font-weight:650; letter-spacing:-.055em; line-height:1.08; color:var(--text); }
-.hero-brand__wordmark span { display:block; color:var(--accent); }
-.hero-brand__directions { display:grid; grid-template-columns:1fr 1fr; gap:24px; border-top:1px solid var(--divider); margin-top:40px; padding-top:24px; }
-.hero-brand__directions>div { display:flex; flex-direction:column; gap:12px; }
-.hero-brand__directions small { font-size:11px; color:var(--muted); letter-spacing:.12em; }
-.hero-brand__directions span { font-size:18px; font-weight:600; }
-.hero-brand__signature { margin-top:32px; font-size:11px; color:var(--muted); }
-@media(max-width:720px) { .hero-brand { padding:32px 0 0; border-left:0; border-top:1px solid var(--divider); } .hero-brand__wordmark { font-size:38px; } }
+.hero-brand { min-width:0; width:100%; max-width:490px; justify-self:center; }
+.hero-brand svg { display:block; width:100%; height:auto; }
+.art-caption { display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:9px; letter-spacing:.08em; margin-inline:16px; }
 .product-section { background:var(--canvas); }
 .home-product-entry { display:flex; align-items:center; justify-content:flex-end; height:100%; padding-top:32px; }
 @media(max-width:720px) { .home-product-entry { justify-content:flex-start; padding-top:0; } }

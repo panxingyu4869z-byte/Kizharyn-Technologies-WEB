@@ -56,8 +56,8 @@ for (const locale of locales) {
         const url = new URL(reference, page.url());
         if (url.protocol === 'mailto:') continue;
         if (url.origin !== siteOrigin) {
-          expect(url.href === lieAppUrl || url.href.startsWith(lieConsoleUrl + 'console/') || url.hostname === 'github.com').toBe(true);
-          if (url.hostname !== 'github.com') applicationLinks += 1;
+          expect(url.href === lieAppUrl || url.href.startsWith(lieConsoleUrl + 'console/')).toBe(true);
+          applicationLinks += 1;
         } else if (link && !language) {
           const directory = url.pathname.substring(0, url.pathname.lastIndexOf('/') + 1);
           expect(directory, reference).toBe(pagePath(locale, ''));
@@ -71,7 +71,7 @@ for (const locale of locales) {
           expect(await resource.text(), reference).toContain(`id="${decodeURIComponent(url.hash.slice(1))}"`);
         }
       }
-      expect(applicationLinks).toBe(entry.key === 'product' ? 14 : 0);
+      expect(applicationLinks).toBe(entry.key === 'product' ? 15 : 0);
 
       for (const target of locales) {
         await page.locator(`.language-nav [data-language="${target.id}"]`).click();

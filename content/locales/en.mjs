@@ -2,7 +2,7 @@ import { company as sharedCompany } from '../site.mjs';
 
 const company = {
   ...sharedCompany,
-  description: 'We study cognitive architectures and develop intelligent technology products for practical tasks.',
+  description: 'With Stalyra, we explore how information, goals and actions work together. LIE illustrates a product application in learning.',
 };
 
 const research = {
@@ -10,13 +10,13 @@ const research = {
   english: 'Stalyra Cognitive Architecture',
   description: 'A cognitive architecture design that coordinates representation, prediction, goals and planning, updating its assessments as new information arrives.',
   overview: 'Stalyra focuses on how information processing, prediction, goals and planning work together. In this design, action results and new information update existing assessments to inform subsequent processing.',
-  definition: 'Stalyra is a recursive cognitive architecture driven by joint belief updates. A parent node holds the joint belief and coordinates four types of processes: representation, prediction, goals and planning. Action results and new observations update the joint posterior, which is written back to the parent node as the basis for the next computation cycle.',
+  definition: 'Stalyra studies coordination between information, goals and actions. For research enquiries, describe your use case, available information, intended goals and how results would be evaluated.',
 };
 
 const product = {
   name: 'LIE | Learning Engine',
   english: 'Learning Intelligence Engine',
-  description: 'LIE gives enterprise applications task processing, process checking, next-action and performance-recording capabilities, independently or in combination.',
+  description: 'LIE is a product example for the learning domain. It gives enterprise applications task processing, process checking, next-action and performance-recording capabilities, independently or in combination.',
   introduction: 'Analyse tasks, materials and responses to inform the next steps in learning.',
 };
 
@@ -49,20 +49,20 @@ export default {
     architectureName: 'Cognitive architecture', learnStalyra: 'Explore Stalyra',
     learningEngine: 'Learning engine', productTeaser: 'Explore capabilities, inputs, outputs and integration requirements.',
     learnLie: 'Explore LIE', dataApplications: 'Connecting tasks, analysis and actions',
-    conceptDiagram: 'Architecture concept diagram',
-    architectureAria: 'A parent node holds the joint belief and coordinates representation, prediction, goals and planning. Action results and new observations update the joint posterior, which is written back to the parent node. The four processes do not indicate a fixed execution order.',
-    parentNode: 'Parent node', jointBelief: 'Joint belief', processes: ['Representation', 'Prediction', 'Goals', 'Planning'],
-    actionResults: 'Action results', and: 'and', observations: 'New observations', jointPosterior: 'Joint posterior',
-    update: 'Update', writeBack: 'Write back to parent node',
-    architectureCaption: 'The joint belief coordinates the four processes. The posterior is written back to inform the next computation cycle.',
+    conceptDiagram: 'Research discussion topics',
+    architectureAria: 'Research discussion topics: use case, information, expectations, goals and plans; use actual results and supporting materials to define evaluation scope and next discussion topics.',
+    parentNode: 'Research discussion', jointBelief: 'Use case', processes: ['Representation', 'Prediction', 'Goals', 'Planning'],
+    actionResults: 'Action results', and: 'and', observations: 'New observations', jointPosterior: 'Evaluation scope',
+    update: 'Update', writeBack: 'Define next discussion topics',
+    architectureCaption: 'Discuss how results can be evaluated against the use case, goals and materials.',
     overviewLabels: ['Information', 'Goals', 'Actions'], overviewCaption: 'Coordinating information, goals and actions',
     integrationDiagram: 'Integration diagram', input: 'Input', output: 'Output',
     learningData: 'Tasks, materials and responses', structuredResults: 'Analysis, suggested actions and state',
     integrationCaption: 'Connect task analysis, response checking, learning actions and state updates.',
     researchEyebrow: 'RESEARCH / STALYRA', designLabel: 'Design approach',
-    designTitle: 'Connecting information, goals and actions', architectureDetails: 'View architecture details',
-    architectureNote: 'The concept diagram shows the relationships between components, not a fixed execution order.',
-    productEyebrow: 'PRODUCT / LIE', consoleEntry: 'Enterprise Console', integrationContact: 'Discuss integration',
+    designTitle: 'Connecting information, goals and actions', architectureDetails: 'View research enquiry guidance',
+    architectureNote: 'The diagram lists information to prepare for a research discussion.',
+    productEyebrow: 'DOMAIN PRODUCT EXAMPLE / LIE', consoleEntry: 'Enterprise Console', integrationContact: 'Discuss integration',
     applicationsLabel: 'Product applications', applicationsTitle: 'Discuss product applications',
     applicationsDescription: 'Define data requirements, integration conditions and validation goals based on your business needs.',
     discussions: [

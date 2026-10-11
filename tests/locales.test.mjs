@@ -54,3 +54,20 @@ test('public experience content uses one schema and paired sample identities in 
     if (locale.id !== 'zh') assert.doesNotMatch(JSON.stringify(experience[locale.id]), /[\u3400-\u9fff]/);
   }
 });
+
+
+test('public pages expose customer destinations and guidance without repository or mechanism details', () => {
+  for (const locale of locales) {
+    for (const page of locale.pages) {
+      const html = renderPage(page, locale, locales);
+      assert.doesNotMatch(html, /github|gitlab|bitbucket|rawgit|sourceMappingURL|content\/site|lie-integration|联合后验|父节点|joint posterior|parent node|Posterior-Verteilung|Überzeugungszustand/i);
+      for (const [, destination] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+        const url = new URL(destination, 'https://kizharyn.com/');
+        assert.ok(['https:', 'mailto:'].includes(url.protocol));
+        if (url.protocol === 'https:') assert.ok(['kizharyn.com', 'lie-cn.kizharyn.com', 'lie-cn-demo-math.kizharyn.com'].includes(url.hostname), destination);
+      }
+      if (page.key === 'product') assert.ok(html.includes(`console/docs/index.html?lang=${locale.id}`));
+      if (['home', 'research'].includes(page.key)) assert.ok(html.includes('./contact.html?intent=research'));
+    }
+  }
+});

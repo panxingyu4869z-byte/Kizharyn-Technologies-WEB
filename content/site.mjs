@@ -1,7 +1,7 @@
 export const company = {
   name: '岐曌KI',
   english: 'Kizharyn Technologies',
-  description: '我们开展认知架构研究，并开发面向实际任务的智能技术产品。',
+  description: '我们以 Stalyra 探索信息、目标与行动如何协调，并以 LIE 展示学习领域的产品应用。',
   email: 'panxingyu4869z@gmail.com',
   alternateEmail: 'p1172545066@163.com',
 };
@@ -11,13 +11,13 @@ export const research = {
   english: 'Stalyra Cognitive Architecture',
   description: '协调表征、预测、目标与规划，并根据新信息更新判断的认知架构设计。',
   overview: 'Stalyra 关注信息处理、预测、目标与规划之间的协作关系。设计中，行动结果和新信息用于更新已有判断，为后续处理提供依据。',
-  definition: 'Stalyra 是一种联合信念更新驱动的递归认知架构。父节点保存联合信念，协调表征、预测、目标与规划四类过程；行动结果与新观测用于更新联合后验，后验回写父节点，作为下一轮计算的依据。',
+  definition: 'Stalyra 研究信息、目标与行动之间的协调。交流时请提供具体场景、可用信息、希望完成的目标及结果评价方式。',
 };
 
 export const product = {
   name: 'LIE｜学习引擎',
   english: 'Learning Intelligence Engine',
-  description: 'LIE 为企业应用提供任务处理、过程检查、后续行动与表现记录能力，可独立接入或组合使用。',
+  description: 'LIE 是面向学习领域的产品示例，为企业应用提供任务处理、过程检查、后续行动与表现记录能力，可独立接入或组合使用。',
   introduction: '从任务与材料出发，分析作答过程，为后续学习行动提供依据。',
 };
 

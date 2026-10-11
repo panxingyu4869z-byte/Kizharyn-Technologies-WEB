@@ -30,7 +30,7 @@ for (const entry of pages) {
         continue;
       }
       if (url.origin !== new URL(page.url()).origin) {
-        expect(url.href === lieAppUrl || url.href.startsWith(lieConsoleUrl + 'console/') || url.hostname === 'github.com').toBe(true);
+        expect(url.href === lieAppUrl || url.href.startsWith(lieConsoleUrl + 'console/')).toBe(true);
         // External entries are prepared links; deployment is verified separately.
         continue;
       }
@@ -58,14 +58,14 @@ test('home preserves the four approved sections without empty progress blocks', 
   await expect(page.locator('main')).toContainText(research.description);
 });
 
-test('research retains the full definition and labels the diagram as conceptual', async ({ page }) => {
+test('research keeps enquiry guidance accessible in the existing disclosure', async ({ page }) => {
   await page.goto('/research.html');
   await expect(page.locator('.definition')).toBeHidden();
-  await page.getByText('查看架构说明', { exact: true }).click();
+  await page.getByText('查看研究交流说明', { exact: true }).click();
   await expect(page.locator('.definition')).toBeVisible();
   await expect(page.locator('.definition')).toHaveText(research.definition);
-  await expect(page.locator('main')).toContainText('架构概念示意');
-  await expect(page.locator('main')).toContainText('不表示固定执行顺序');
+  await expect(page.locator('main')).toContainText('研究交流要点');
+  await expect(page.locator('main')).toContainText('图示列出研究交流中可准备的信息。');
   await expect(page.locator('main')).not.toContainText(/性能领先|已经实现通用智能|实验验证成功/);
 });
 
