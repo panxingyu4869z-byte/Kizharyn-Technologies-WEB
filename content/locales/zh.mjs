@@ -30,7 +30,7 @@ export default {
     researchEyebrow: 'RESEARCH / STALYRA', designLabel: '设计思路',
     designTitle: '连接信息、目标与行动', architectureDetails: '查看架构说明',
     architectureNote: '概念图用于说明各部分的关系，不表示固定执行顺序。',
-    productEyebrow: 'PRODUCT / LIE', integrationContact: '咨询接入',
+    productEyebrow: 'PRODUCT / LIE', integrationContact: '咨询接入', consoleEntry: '企业 Console',
     applicationsLabel: '产品应用', applicationsTitle: '产品应用咨询',
     applicationsDescription: '结合业务需求，明确数据要求、接入条件与验证目标。',
     discussions: [

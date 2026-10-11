@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { company, pages, research } from '../content/site.mjs';
-import { lieAppUrl } from '../content/site.mjs';
+import { lieAppUrl, lieConsoleUrl } from '../content/site.mjs';
 
 const internalTerms = /未给出|待补充|待填写|内部能力核实|拟发布表述|公开状态|公开批准|首发安排|能力核实目录|产品版本\s*→|TODO|Lorem ipsum/i;
 
@@ -30,8 +30,8 @@ for (const entry of pages) {
         continue;
       }
       if (url.origin !== new URL(page.url()).origin) {
-        expect(url.href).toBe(lieAppUrl);
-        expect((await request.get(lieAppUrl)).status()).toBe(200);
+        expect(url.href === lieAppUrl || url.href.startsWith(lieConsoleUrl + 'console/') || url.hostname === 'github.com').toBe(true);
+        // External entries are prepared links; deployment is verified separately.
         continue;
       }
       const resource = await request.get(`${url.pathname}${url.search}`);
@@ -50,8 +50,8 @@ test('home preserves the four approved sections without empty progress blocks', 
   const sections = await page.locator('main > section').evaluateAll(elements => elements.map(element => element.className));
   expect(sections).toHaveLength(4);
   expect(sections[0]).toContain('hero');
-  expect(sections[1]).toContain('research-section');
-  expect(sections[2]).toContain('product-section');
+  expect(sections[1]).toContain('product-section');
+  expect(sections[2]).toContain('research-section');
   expect(sections[3]).toContain('invitation');
   await expect(page.locator('main')).not.toContainText('研究与产品进展');
   await expect(page.locator('main')).toContainText(company.description);

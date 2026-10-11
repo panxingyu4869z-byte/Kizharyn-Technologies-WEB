@@ -16,7 +16,7 @@ const research = {
 const product = {
   name: 'LIE｜Lern-Engine',
   english: 'Learning Intelligence Engine',
-  description: 'Eine Lern-Engine für Aufgabenanalyse, die Prüfung von Lösungswegen, Lernempfehlungen und die Aktualisierung des Lernstands.',
+  description: 'LIE bietet Unternehmensanwendungen Aufgabenverarbeitung, Prüfung von Lösungswegen, nächste Maßnahmen und Leistungserfassung – einzeln oder kombiniert.',
   introduction: 'Aufgaben, Materialien und Lösungswege werden analysiert, um nächste Lernschritte vorzubereiten.',
 };
 
@@ -62,7 +62,7 @@ export default {
     researchEyebrow: 'FORSCHUNG / STALYRA', designLabel: 'Architekturansatz',
     designTitle: 'Information, Ziele und Handlung verbinden', architectureDetails: 'Architektur im Detail',
     architectureNote: 'Das Diagramm veranschaulicht die Beziehungen zwischen den Komponenten und legt keine Ausführungsreihenfolge fest.',
-    productEyebrow: 'PRODUKT / LIE', integrationContact: 'Integration anfragen',
+    productEyebrow: 'PRODUKT / LIE', consoleEntry: 'Unternehmens-Console', integrationContact: 'Integration anfragen',
     applicationsLabel: 'Produktanwendung', applicationsTitle: 'Beratung zur Produktanwendung',
     applicationsDescription: 'Datenanforderungen, Integrationsbedingungen und Validierungsziele werden anhand Ihrer Anforderungen geklärt.',
     discussions: [

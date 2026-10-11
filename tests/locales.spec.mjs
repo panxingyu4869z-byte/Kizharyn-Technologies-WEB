@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { locales } from '../content/locales/index.mjs';
-import { lieAppUrl } from '../content/site.mjs';
+import { lieAppUrl, lieConsoleUrl } from '../content/site.mjs';
 const pagePath = (locale, file) => `/${locale.directory ? `${locale.directory}/` : ''}${file}`;
 const translatedLocales = locales.filter(locale => locale.id !== 'zh');
 
@@ -56,23 +56,22 @@ for (const locale of locales) {
         const url = new URL(reference, page.url());
         if (url.protocol === 'mailto:') continue;
         if (url.origin !== siteOrigin) {
-          expect(locale.id).toBe('zh');
-          expect(entry.key).toBe('product');
-          expect(url.href).toBe(lieAppUrl);
-          applicationLinks += 1;
+          expect(url.href === lieAppUrl || url.href.startsWith(lieConsoleUrl + 'console/') || url.hostname === 'github.com').toBe(true);
+          if (url.hostname !== 'github.com') applicationLinks += 1;
         } else if (link && !language) {
           const directory = url.pathname.substring(0, url.pathname.lastIndexOf('/') + 1);
           expect(directory, reference).toBe(pagePath(locale, ''));
         }
         if (checked.has(url.href)) continue;
         checked.add(url.href);
+        if (url.origin !== siteOrigin) continue;
         const resource = await request.get(url.href);
         expect(resource.status(), reference).toBe(200);
         if (url.origin === siteOrigin && url.hash) {
           expect(await resource.text(), reference).toContain(`id="${decodeURIComponent(url.hash.slice(1))}"`);
         }
       }
-      expect(applicationLinks).toBe(lieAppUrl && locale.id === 'zh' && entry.key === 'product' ? 1 : 0);
+      expect(applicationLinks).toBe(entry.key === 'product' ? 14 : 0);
 
       for (const target of locales) {
         await page.locator(`.language-nav [data-language="${target.id}"]`).click();

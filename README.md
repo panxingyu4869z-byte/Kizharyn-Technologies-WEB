@@ -1,10 +1,10 @@
 # 岐曌KI · Kizharyn Technologies 官网
 
-中文、英语和德语各五页：首页、研究、产品、关于我们、联系合作。共用米白、深绿及衬线标题的视觉样式。中文在根目录，英语在 en/，德语在 de/；页首可切换到当前页面的其他语言。
+中文、英语和德语各五页：首页、研究、产品、关于我们、联系合作。中文在根目录，英语在 en/，德语在 de/；语言切换进入当前页面的对应版本。
 
-## 使用
+## 本地预览
 
-可直接打开 index.html，也可使用 Node.js 22 或以上版本运行：
+使用 Node.js 22 或以上版本：
 
 ```sh
 npm ci
@@ -12,50 +12,64 @@ npm run build
 npm start
 ```
 
-本地预览：http://127.0.0.1:4173。
+预览地址为 http://127.0.0.1:4173。代表页面：
 
-英语：http://127.0.0.1:4173/en/。德语：http://127.0.0.1:4173/de/。
+- 首页：http://127.0.0.1:4173/index.html
+- 产品：http://127.0.0.1:4173/product.html
+- 研究：http://127.0.0.1:4173/research.html
+- 联系：http://127.0.0.1:4173/contact.html?intent=product
+- 英语：http://127.0.0.1:4173/en/
+- 德语：http://127.0.0.1:4173/de/
 
-## 中文版 LIE 入口
+采用中性白、石墨、深蓝一种配色与系统无衬线字体。共享 CSS 颜色角色与 Console 一致。研究摘要采用石墨背景；研究长页采用白色阅读界面。
 
-首页的 LIE 入口先进入官网产品页；中文版产品页的“体验 LIE”连接 https://demo.kizharyn.com/。英语和德语版保留本语言产品介绍和咨询入口，不提供演示链接。
+## 页面与内容
 
-公网地址统一维护在 content/site.mjs 的 lieAppUrl 中。官网使用普通页面链接，不需要本机 LIE 服务或跨域 API 代理；官网表单信息不会传给 LIE。当前仅验证公网入口的访问与页面身份，未在公网执行计算或修改数据。
+首页顺序为公司方向、简短 LIE 产品摘要、Stalyra 研究摘要、交流入口。产品详情通过独立产品页进入；首页不展示样例标签或输入输出表。产品页显示四模块与 N01–N08 的用途、咨询接入状态和独立 Console 详情链接。目录不表示接口授权、服务开放或商业承诺。
 
-## 验证
+产品样例复用企业 API 接入包 books-001 合成题与配套返回，区分任务目标、原文检查位置和固定返回的事实计数。样例展示不执行计算服务；事实计数不表示调用过 statistics API。配套输入和结果随标签一起切换，支持方向键、Home 和 End。公开研究资料注明类型、来源和发布日期未提供；概念说明不作为算法实现或实验成果证明。
+
+Console 域名统一维护在 content/site.mjs，入口为 https://lie-math-cn.kizharyn.com/console/index.html。四模块进入 /console/modules/{task,diagnostic,action,state}.html；N 组进入 /console/capabilities/{N01..N08}.html。三语产品页均提供对应语言的 Console 目录，链接用 lang=zh/en/de 传递当前语言；三语产品页提供同一个中文 Demo https://lie-cn-demo-math.kizharyn.com/。Console 本地预览由 LIE-1 项目负责。2026-10-11 公网 Console 域名尚未提供可用部署；本地预览可使用下面的回环地址配置，不绕过证书检查。
+
+企业接入先明确业务场景、已有输入、预期结果与验收标准。补充测评及内容采用依赖企业授权题库或材料接口，具体能力与接口权限由项目交付确定。
+
+## 构建与验证
 
 ```sh
+npm run build
 npm run check
 npm test
-npx playwright install chromium
+# 本地三语、五页、表单、目录、键盘与移动端检查
 npm run test:browser
+# 先保持 npm start 运行，再生成本地截图
+node scripts/capture-preview.mjs
 ```
 
-浏览器运行所需 Chromium 在首次验证前安装。网站运行本身不依赖任何第三方前端包。浏览器检查会验证“中文首页 → 产品页 → 公网 LIE”的跳转及页面标题，需要网络连接；不提交计算或调用写入接口。
+首次使用浏览器测试时按需运行 `npx playwright install chromium`。tests/lie.spec.mjs 在本地验证首页到产品页的导航及 Demo 链接配置，不访问公网服务。
 
-## 内容与构建
+- content/site.mjs：品牌、邮箱、研究描述、产品定位与服务域名。
+- content/locales/：三语导航、元信息、正文及联系邮件文案。
+- content/experience.mjs：同字段三语能力目录、配对样例、研究资料说明及场景字段。
+- scripts/templates.mjs：共用页面模板、导航与页脚。
+- assets/wireframe.css：集中视觉角色、布局、控件与响应式规则。
+- assets/wireframe.js：样例标签、联系意向与邮件草稿交互。
 
-- content/site.mjs：共享品牌、邮箱、研究定义和产品定位。
-- content/locales/：三语正文、导航、元信息、表单及邮件文案，使用相同字段。
-- scripts/build.mjs、scripts/templates.mjs：生成三语十五页 HTML，共用导航、页脚和页面结构。
-- assets/wireframe.css：沿用既有配色的桌面与移动端样式。
-- assets/wireframe.js：联系意向预选、校验、邮件草稿与复制交互。
-- tests：静态服务、三语链接与切换、响应式、键盘、联系交互及公网 LIE 跳转。
+运行 npm run build 更新十五页静态 HTML。独立输出使用 `node scripts/build.mjs ./dist`。Vercel 配置生成 public 静态目录。
 
-更新共享文案或模板后运行 npm run build。把包含十五页 HTML、en/、de/ 和 assets 的静态文件输出到指定目录：
+## 联系功能与限制
 
-```sh
-node scripts/build.mjs ./dist
+联系页生成邮件草稿，可打开邮件应用或复制内容。必填联系邮箱、交流意向与简要说明；已有输入、预期结果和验收标准为补充场景字段。任何字段变更会使已有草稿失效。生成草稿不代表发送或送达；页面不会自动发送或保存填表内容。
+
+当前邮箱沿用 panxingyu4869z@gmail.com 与 p1172545066@163.com，实际送达尚未验证。公司主体资料、正式研究结论、开放能力、费用与服务承诺仍以获确认的交付材料为准。
+
+## 本地跨项目预览
+
+正式构建始终保留正式服务域名。若 Console 与 Demo 的隔离本地服务已经运行，可只在预览服务进程配置以下回环地址：
+
+```powershell
+$env:CONSOLE_PREVIEW_URL='http://127.0.0.1:8781/'
+$env:DEMO_PREVIEW_URL='http://127.0.0.1:8771/'
+npm start
 ```
 
-Vercel 使用仓库根目录的 vercel.json，执行 node scripts/build.mjs public，并将 public 作为输出目录。该目录包含十五页 HTML 和共享资源，不包含源码、测试或开发服务。本地 npm run build 仍更新根目录页面，供现有预览服务使用。
-
-## 联系功能与发布限制
-
-联系页当前生成邮件并允许复制内容，邮件需由访客在自己的邮件应用中确认发送。页面不调用接收服务，不自动发送或保存填表内容，不把生成草稿表示成消息送达。
-
-沿用现有官网公开的 panxingyu4869z@gmail.com 与 p1172545066@163.com；邮箱实际送达尚未验证。
-
-尚需公司主体资料与正式发布确认。若改为网页直接提交，需要真实接收服务、送达及重试验证，并按实际处理方式更新联系信息说明。
-
-没有真实材料的进展、团队、合作机构和实验结果未形成公开区块；产品页不声称具体接口、部署形态或未经确认的版本能力。
+服务仅改写返回 HTML 的对应链接，保留语言、能力及其他查询参数与片段，不改正文地址或生成文件。配置只接受回环来源，默认不开启。

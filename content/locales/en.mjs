@@ -16,7 +16,7 @@ const research = {
 const product = {
   name: 'LIE | Learning Engine',
   english: 'Learning Intelligence Engine',
-  description: 'A learning engine that helps applications interpret tasks, check responses, recommend learning activities and update learner state.',
+  description: 'LIE gives enterprise applications task processing, process checking, next-action and performance-recording capabilities, independently or in combination.',
   introduction: 'Analyse tasks, materials and responses to inform the next steps in learning.',
 };
 
@@ -62,7 +62,7 @@ export default {
     researchEyebrow: 'RESEARCH / STALYRA', designLabel: 'Design approach',
     designTitle: 'Connecting information, goals and actions', architectureDetails: 'View architecture details',
     architectureNote: 'The concept diagram shows the relationships between components, not a fixed execution order.',
-    productEyebrow: 'PRODUCT / LIE', integrationContact: 'Discuss integration',
+    productEyebrow: 'PRODUCT / LIE', consoleEntry: 'Enterprise Console', integrationContact: 'Discuss integration',
     applicationsLabel: 'Product applications', applicationsTitle: 'Discuss product applications',
     applicationsDescription: 'Define data requirements, integration conditions and validation goals based on your business needs.',
     discussions: [

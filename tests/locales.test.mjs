@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { locales } from '../content/locales/index.mjs';
 import { renderPage } from '../scripts/templates.mjs';
-import { lieAppUrl } from '../content/site.mjs';
+import { lieAppUrl, lieConsoleUrl } from '../content/site.mjs';
+import { experience } from '../content/experience.mjs';
 
 function schema(value, path = '') {
   if (Array.isArray(value)) return value.map((entry, index) => schema(entry, `${path}.${index}`));
@@ -29,13 +30,27 @@ test('all three locales share the same fields and five page identities', () => {
   }
 });
 
-test('only the Chinese product page links to the public LIE application', () => {
+test('product pages connect the complete directory to independent Console details', () => {
   for (const locale of locales) {
     for (const page of locale.pages) {
       const html = renderPage(page, locale, locales);
-      const shouldConnect = locale.id === 'zh' && page.key === 'product';
+      const shouldConnect = page.key === 'product';
       assert.equal(html.includes(`href="${lieAppUrl}"`), shouldConnect, `${locale.id}/${page.file}`);
-      if (locale.id !== 'zh') assert.ok(!html.includes(lieAppUrl), `${locale.id}/${page.file}`);
+      assert.equal(html.includes(`href="${lieConsoleUrl}console/index.html?lang=${locale.id}"`), page.key === 'product', `${locale.id}/${page.file} Console`);
+      if (page.key === 'product') {
+        for (const item of experience[locale.id].modules) assert.ok(html.includes(`console/modules/${item.id}.html`));
+        for (const item of experience[locale.id].capabilities) assert.ok(html.includes(`console/capabilities/${item.id}.html`));
+      }
     }
+  }
+});
+
+test('public experience content uses one schema and paired sample identities in three languages', () => {
+  for (const locale of locales) {
+    assert.deepEqual(schema(experience[locale.id]), schema(experience.zh), locale.id);
+    assert.deepEqual(experience[locale.id].samples.map(item => item.id), ['task', 'diagnostic', 'statistics']);
+    assert.equal(experience[locale.id].modules.length, 4);
+    assert.equal(experience[locale.id].capabilities.length, 8);
+    if (locale.id !== 'zh') assert.doesNotMatch(JSON.stringify(experience[locale.id]), /[\u3400-\u9fff]/);
   }
 });

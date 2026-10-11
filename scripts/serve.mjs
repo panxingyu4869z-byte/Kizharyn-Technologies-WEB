@@ -2,6 +2,7 @@ import { createServer } from 'node:http';
 import { readFile, realpath, stat } from 'node:fs/promises';
 import { dirname, extname, isAbsolute, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { lieAppUrl, lieConsoleUrl } from '../content/site.mjs';
 
 const siteRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const pageFiles = new Set(['index.html', 'research.html', 'product.html', 'about.html', 'contact.html']);
@@ -27,8 +28,32 @@ function isWithin(root, target) {
   return path !== '..' && !path.startsWith(`..${sep}`) && !isAbsolute(path);
 }
 
-export function createStaticServer(root = siteRoot) {
+function loopbackOrigin(value) {
+  if (!value) return undefined;
+  const url = new URL(value);
+  if (!['http:', 'https:'].includes(url.protocol) || !['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname)
+      || url.username || url.password || url.pathname !== '/' || url.search || url.hash) {
+    throw new Error('Preview service URLs must be loopback origins.');
+  }
+  return url.origin;
+}
+
+// Only rendered anchor destinations change; production files and explanatory
+// service URLs in page text remain the configured official addresses.
+function previewAnchors(html, destinations) {
+  return html.replace(/(<a\b[^>]*\bhref=")([^"]+)(")/g, (match, before, href, after) => {
+    const original = href.replaceAll('&amp;', '&');
+    const destination = destinations.find(([prefix]) => original.startsWith(prefix));
+    if (!destination) return match;
+    const url = new URL(original);
+    return before + (destination[1] + url.pathname + url.search + url.hash).replaceAll('&', '&amp;') + after;
+  });
+}
+
+export function createStaticServer(root = siteRoot, options = {}) {
   const rootPath = resolve(root);
+  const destinations = [[lieConsoleUrl, loopbackOrigin(options.consolePreviewUrl)], [lieAppUrl, loopbackOrigin(options.demoPreviewUrl)]]
+    .filter(([, origin]) => origin);
   return createServer(async (request, response) => {
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       response.writeHead(405, { Allow: 'GET, HEAD' });
@@ -74,7 +99,8 @@ export function createStaticServer(root = siteRoot) {
         response.end('Not found');
         return;
       }
-      const content = await readFile(target);
+      let content = await readFile(target);
+      if (extname(target) === '.html' && destinations.length) content = Buffer.from(previewAnchors(content.toString('utf8'), destinations));
       response.writeHead(200, {
         'Content-Type': mimeTypes[extname(target).toLowerCase()] ?? 'application/octet-stream',
         'Content-Length': content.byteLength,
@@ -92,6 +118,6 @@ export function createStaticServer(root = siteRoot) {
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const host = '127.0.0.1';
   const port = Number(process.env.PORT ?? 4173);
-  const server = createStaticServer();
+  const server = createStaticServer(siteRoot, {consolePreviewUrl:process.env.CONSOLE_PREVIEW_URL, demoPreviewUrl:process.env.DEMO_PREVIEW_URL});
   server.listen(port, host, () => console.log(`Site preview: http://${host}:${port}`));
 }

@@ -1,5 +1,31 @@
 "use strict";
 
+for (const viewer of document.querySelectorAll('.sample-viewer')) {
+  const tabs = Array.from(viewer.querySelectorAll('[role="tab"]'));
+  /** @param {number} index */
+  const select = (index) => {
+    tabs.forEach((tab, position) => {
+      if (!(tab instanceof HTMLButtonElement)) return;
+      tab.setAttribute('aria-selected', String(position === index));
+      tab.tabIndex = position === index ? 0 : -1;
+      const panel = document.getElementById(tab.getAttribute('aria-controls') || '');
+      if (panel instanceof HTMLElement) panel.hidden = position !== index;
+    });
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => select(index));
+    tab.addEventListener('keydown', event => {
+      if (!(event instanceof KeyboardEvent)) return;
+      const next = event.key === 'ArrowRight' ? (index + 1) % tabs.length : event.key === 'ArrowLeft' ? (index - 1 + tabs.length) % tabs.length : event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : -1;
+      if (next < 0) return;
+      event.preventDefault();
+      select(next);
+      const selected = tabs[next];
+      if (selected instanceof HTMLElement) selected.focus();
+    });
+  });
+}
+
 function revealContactInformation() {
   const information = document.querySelector('#privacy');
   if (window.location.hash === '#privacy' && information instanceof HTMLDetailsElement) {
@@ -33,7 +59,7 @@ const copyButton = document.querySelector('#copy-mail');
 const contactCopy = document.querySelector('#contact-copy');
 
 if (contactForm instanceof HTMLFormElement && contactStatus instanceof HTMLElement && mailActions instanceof HTMLElement && mailLink instanceof HTMLAnchorElement && copyButton instanceof HTMLButtonElement && contactCopy instanceof HTMLScriptElement) {
-  /** @type {typeof import('../content/locales/zh.mjs').default.form} */
+  /** @type {typeof import('../content/locales/zh.mjs').default.form & {availableInput: string, expectedResult: string, acceptanceCriteria: string}} */
   const messages = JSON.parse(contactCopy.textContent || '{}');
   const form = contactForm;
   const status = contactStatus;
@@ -86,6 +112,11 @@ if (contactForm instanceof HTMLFormElement && contactStatus instanceof HTMLEleme
       ...(name ? [`${messages.name}${messages.separator}${name}`] : []),
       ...(organization ? [`${messages.organization}${messages.separator}${organization}`] : []),
       '', `${messages.message}${messages.separator}`, message,
+      ...(['availableInput', 'expectedResult', 'acceptanceCriteria']).flatMap(key => {
+        const value = String(values.get(key) ?? '').trim();
+        const label = key === 'availableInput' ? messages.availableInput : key === 'expectedResult' ? messages.expectedResult : messages.acceptanceCriteria;
+        return value ? ['', `${label}${messages.separator}`, value] : [];
+      }),
     ].join('\n');
 
     currentDraft = `${messages.recipient}${messages.separator}${recipient}\n${messages.subject}${messages.separator}${subject}\n\n${body}`;

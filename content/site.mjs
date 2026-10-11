@@ -17,11 +17,12 @@ export const research = {
 export const product = {
   name: 'LIE｜学习引擎',
   english: 'Learning Intelligence Engine',
-  description: '为应用提供任务理解、过程检查、学习建议与状态更新的学习引擎。',
+  description: 'LIE 为企业应用提供任务处理、过程检查、后续行动与表现记录能力，可独立接入或组合使用。',
   introduction: '从任务与材料出发，分析作答过程，为后续学习行动提供依据。',
 };
 
-export const lieAppUrl = 'https://demo.kizharyn.com/';
+export const lieAppUrl = 'https://lie-cn-demo-math.kizharyn.com/';
+export const lieConsoleUrl = 'https://lie-math-cn.kizharyn.com/';
 
 export const contact = {
   description: '欢迎开展技术交流，咨询产品应用与合作。',
