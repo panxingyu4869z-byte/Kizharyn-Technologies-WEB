@@ -29,7 +29,7 @@ npm start
 
 产品样例复用企业 API 接入包 books-001 合成题与配套返回，区分任务目标、原文检查位置和固定返回的事实计数。样例展示不执行计算服务；事实计数不表示调用过 statistics API。配套输入和结果随标签一起切换，支持方向键、Home 和 End。公开研究资料注明类型、来源和发布日期未提供；概念说明不作为算法实现或实验成果证明。
 
-Console 域名统一维护在 content/site.mjs，入口为 https://lie-math-cn.kizharyn.com/console/index.html。四模块进入 /console/modules/{task,diagnostic,action,state}.html；N 组进入 /console/capabilities/{N01..N08}.html。三语产品页均提供对应语言的 Console 目录，链接用 lang=zh/en/de 传递当前语言；三语产品页提供同一个中文 Demo https://lie-cn-demo-math.kizharyn.com/。Console 本地预览由 LIE-1 项目负责。2026-10-11 公网 Console 域名尚未提供可用部署；本地预览可使用下面的回环地址配置，不绕过证书检查。
+Console 域名统一维护在 content/site.mjs，入口为 https://lie-cn.kizharyn.com/console/index.html。四模块进入 /console/modules/{task,diagnostic,action,state}.html；N 组进入 /console/capabilities/{N01..N08}.html。三语产品页均提供对应语言的 Console 目录，链接用 lang=zh/en/de 传递当前语言；三语产品页提供同一个中文 Demo https://lie-cn-demo-math.kizharyn.com/。Console 本地预览由 LIE-1 项目负责。生产入口使用这两个新域名；本地预览可使用下面的回环地址配置，保持 TLS 校验。官网由 Vercel 在 main 推送后自动发布，无需手动重复部署。
 
 企业接入先明确业务场景、已有输入、预期结果与验收标准。补充测评及内容采用依赖企业授权题库或材料接口，具体能力与接口权限由项目交付确定。
 

@@ -22,7 +22,7 @@ export const product = {
 };
 
 export const lieAppUrl = 'https://lie-cn-demo-math.kizharyn.com/';
-export const lieConsoleUrl = 'https://lie-math-cn.kizharyn.com/';
+export const lieConsoleUrl = 'https://lie-cn.kizharyn.com/';
 
 export const contact = {
   description: '欢迎开展技术交流，咨询产品应用与合作。',

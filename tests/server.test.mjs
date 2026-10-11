@@ -113,7 +113,7 @@ test('preview service overrides require loopback origins', () => {
 });
 
 test('local preview changes official anchor destinations without changing text or files', async () => {
-  const html = '<a href="https://lie-math-cn.kizharyn.com/console/index.html?lang=de&amp;capability=N07#question-bank">Console</a><a href="https://lie-cn-demo-math.kizharyn.com/">Demo</a><p>https://lie-math-cn.kizharyn.com/</p><a href="https://example.com/">Other</a>';
+  const html = '<a href="https://lie-cn.kizharyn.com/console/index.html?lang=de&amp;capability=N07#question-bank">Console</a><a href="https://lie-cn-demo-math.kizharyn.com/">Demo</a><p>https://lie-cn.kizharyn.com/</p><a href="https://example.com/">Other</a>';
   const file = join(root, 'about.html');
   await writeFile(file, html);
   const local = createStaticServer(root, {consolePreviewUrl:'http://127.0.0.1:8781/', demoPreviewUrl:'http://localhost:8771/'});
@@ -124,7 +124,7 @@ test('local preview changes official anchor destinations without changing text o
     const shown = await response.text();
     assert.ok(shown.includes('href="http://127.0.0.1:8781/console/index.html?lang=de&amp;capability=N07#question-bank"'));
     assert.ok(shown.includes('href="http://localhost:8771/"'));
-    assert.ok(shown.includes('<p>https://lie-math-cn.kizharyn.com/</p>'));
+    assert.ok(shown.includes('<p>https://lie-cn.kizharyn.com/</p>'));
     assert.ok(shown.includes('href="https://example.com/"'));
     assert.equal(await readFile(file, 'utf8'), html);
     assert.equal((await get('/about.html')).body, html);
